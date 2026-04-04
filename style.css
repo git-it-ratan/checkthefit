@@ -1,0 +1,928 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-color: #f5e6e8;
+    /* E0E2DB */
+    --text-color: #2a1633;
+    --hilyt-color: #967aa1;
+    /* d5c6e0 967aa1*/
+    --acc-color: #240046;
+    /* 9b5de5 */
+}
+
+::selection {
+    color: var(--hilyt-color);
+    background-color: var(--text-color);
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-color);
+    overflow-x: hidden;
+}
+
+.homepage {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    padding: 30px;
+    justify-items: center;
+    margin-bottom: 0px;
+}
+
+.homepage .navbar {
+    width: calc(100% - 180px);
+    /* background-color: brown; */
+    display: flex;
+    height: 80px;
+    position: absolute;
+    top: 30px;
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    /* border: 1px solid var(--text-color); */
+    /* padding: 15px; */
+}
+
+.homepage .navbar h1 {
+    width: 65%;
+    height: 78px;
+    border-radius: 20px;
+    /* background-color: var(--bg-color); */
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: "Moon Dance", sans-serif;
+    font-size: clamp(2rem, 10vw, 3.5rem);
+    /* letter-spacing: 2px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--text-color);
+}
+
+.homepage .navbar h1 a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.homepage .navbar .buttons {
+    /* background-color: var(--text-color); */
+    width: 30%;
+    height: 80px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.homepage .navbar .buttons button {
+    width: 100px;
+    height: 50px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.homepage .navbar .buttons button:first-child {
+    margin-right: 20px;
+}
+
+.homepage .hero {
+    background-color: var(--hilyt-color);
+    height: calc(100vh - 60px);
+    width: 100%;
+    padding: 50px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.homepage .hero .helper {
+    width: 60%;
+    height: 90px;
+    background-color: var(--bg-color);
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.homepage .hero .helper::before {
+    content: "";
+    width: 40px;
+    height: 40px;
+    background-color: var(--hilyt-color);
+    position: absolute;
+    top: 4px;
+    left: -40px;
+    border-top-right-radius: 20px;
+    /* border-right: 5px solid var(--bg-color); */
+    box-shadow: 10px -10px 0 0 var(--bg-color);
+    /* border-bottom-right-radius: 20px; */
+}
+
+.homepage .hero .helper::after {
+    content: "";
+    width: 40px;
+    height: 40px;
+    background-color: var(--hilyt-color);
+    position: absolute;
+    top: 4px;
+    right: -40px;
+    border-top-left-radius: 20px;
+    /* border-right: 5px solid var(--bg-color); */
+    box-shadow: -10px -10px 0 0 var(--bg-color);
+    /* border-bottom-right-radius: 20px; */
+}
+
+
+.homepage .hero h1 {
+    font-size: clamp(5rem, 10vw, 7rem);
+    font-family: "Hurricane", sans-serif;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.homepage .hero h1 span {
+    color: var(--bg-color);
+}
+
+.homepage .hero p {
+    color: var(--text-color);
+    font-family: "Archivo", sans-serif;
+    font-size: 1.4rem;
+    text-align: center;
+    /* background-color: #fff; */
+    width: 60%;
+    letter-spacing: 2px;
+}
+
+.heading {
+    font-size: clamp(5rem, 5vw, 7rem);
+    font-family: "Hurricane", sans-serif;
+    color: var(--text-color);
+}
+
+.tag {
+    color: var(--text-color);
+    font-family: "Archivo", sans-serif;
+    font-size: 1.4rem;
+    /* background-color: #fff; */
+    width: 100%;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.features {
+    background-color: var(--bg-color);
+    width: 100%;
+    padding: clamp(20px, 5vw, 48px);
+    padding-bottom: clamp(40px, 8vw, 80px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(24px, 4vw, 48px);
+}
+
+.features .heading {
+    text-align: center;
+    width: 100%;
+    line-height: 1.05;
+}
+
+.features .features-set {
+    width: 100%;
+    max-width: 1400px;
+    margin-inline: auto;
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: clamp(16px, 3vw, 30px);
+    align-items: stretch;
+}
+
+.features .features-set .feature {
+    width: 100%;
+    min-height: 0;
+    background-color: var(--hilyt-color);
+    border-radius: 20px;
+    padding: clamp(18px, 3vw, 28px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: clamp(12px, 2vw, 20px);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-radius 0.25s ease;
+}
+
+.features .features-set .feature:hover {
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(42, 22, 51, 0.12);
+}
+
+.features .features-set .feature h2 {
+    font-size: clamp(1.35rem, 2.5vw, 2.3rem);
+    color: var(--text-color);
+    font-family: "Archivo", sans-serif;
+    line-height: 1.2;
+}
+
+.features .features-set .feature p {
+    font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+    color: var(--text-color);
+    font-family: "Archivo", sans-serif;
+    letter-spacing: clamp(0.5px, 0.2vw, 2px);
+    line-height: 1.65;
+}
+
+.features .features-set .feature:last-child {
+    background-color: var(--text-color);
+}
+
+.features .features-set .feature:last-child h2,
+.features .features-set .feature:last-child p {
+    color: var(--bg-color);
+}
+
+.avatar {
+    background-color: var(--bg-color);
+    min-height: 100vh;
+    width: 100%;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.avatar .operation {
+    width: 100%;
+    height: 600px;
+    margin-top: 30px;
+    /* background-color: var(--bg-color); */
+    display: flex;
+    gap: 30px;
+}
+
+.avatar .operation .preview {
+    width: 40%;
+    height: 100%;
+    background-color: var(--hilyt-color);
+    border-radius: 20px;
+    border: 2px solid var(--text-color);
+    overflow: hidden;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.avatar .operation .preview canvas {
+    width: 100%;
+    height: 90%;
+    background-color: var(--bg-color);
+    border-radius: 20px;
+    border: 2px solid var(--text-color);
+}
+
+.avatar .operation .preview h3 {
+    font-size: 1.6rem;
+    font-family: "Archivo", sans-serif;
+    color: var(--text-color);
+}
+
+.avatar .operation .measurements-tab {
+    width: 60%;
+    height: 100%;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    overflow: hidden;
+}
+
+.avatar .operation .measurements-tab .skin-tones {
+    width: 70%;
+    height: 100%;
+    padding: 10px 20px;
+    background-color: var(--hilyt-color);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    border-radius: 20px;
+    border: 2px solid var(--text-color);
+}
+
+.avatar .operation .measurements-tab .skin-tones h3 {
+    font-size: 1.6rem;
+    font-family: "Archivo", sans-serif;
+    color: var(--text-color);
+}
+
+.avatar .operation .measurements-tab .skin-tones .tones {
+    width: 100%;
+    height: 40px;
+    /* margin-left: 10px; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.avatar .operation .measurements-tab .skin-tones .tones .tone {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--text-color);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.tone:hover {
+    /* border: 3px solid var(--text-color); */
+    transform: scale(1.2);
+}
+
+.tone.selected {
+    /* border: 3px solid var(--text-color); */
+    transform: scale(1.2);
+}
+
+.avatar .operation .measurements-tab .skin-and-gender {
+    width: 100%;
+    height: 20%;
+    /* border: 2px solid var(--text-color); */
+    display: flex;
+    gap: 20px;
+}
+
+.avatar .operation .measurements-tab .skin-and-gender .gender {
+    width: 30%;
+    height: 100%;
+    padding: 10px 20px;
+    background-color: var(--hilyt-color);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    border-radius: 20px;
+    border: 2px solid var(--text-color);
+}
+
+.avatar .operation .measurements-tab .skin-and-gender .gender h3 {
+    font-size: 1.6rem;
+    font-family: "Archivo", sans-serif;
+    color: var(--text-color);
+}
+
+.avatar .operation .measurements-tab .skin-and-gender .gender .genders {
+    width: 100%;
+    height: 40px;
+    /* margin-left: 10px; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.avatar .operation .measurements-tab .skin-and-gender .gender .gender-btn {
+    padding: 10px;
+    border-radius: 20px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--text-color);
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: "Archivo";
+    font-size: 1.2rem;
+}
+
+.avatar .operation .measurements-tab .skin-and-gender .gender .gender-btn:hover {
+    /* scale: 0.97; */
+    border-radius: 10px;
+}
+
+.avatar .operation .measurements-tab .skin-and-gender .gender .gender-btn.selected {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    border: 1px solid var(--bg-color);
+}
+
+.avatar .operation .measurements-tab .measurements {
+    width: 100%;
+    height: 80%;
+    background-color: var(--hilyt-color);
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+    border-radius: 20px;
+    border: 2px solid var(--text-color);
+}
+
+.avatar .operation .measurements-tab .measurements .measurement {
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    background-color: var(--bg-color);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    border: 2px solid var(--text-color);
+}
+
+.avatar .operation .measurements-tab .measurements .measurement h3 {
+    font-size: 1.6rem;
+    font-family: "Archivo", sans-serif;
+    color: var(--text-color);
+}
+
+.avatar .operation .measurements-tab .measurements .measurement p {
+    font-size: 1.6rem;
+    font-family: "Archivo", sans-serif;
+    color: var(--text-color);
+}
+
+.avatar .operation .measurements-tab .measurements .measurement input[type="range"] {
+    width: 100%;
+    accent-color: var(--acc-color);
+    border: 2px solid var(--text-color);
+}
+
+.wardrobe {
+    background-color: var(--bg-color);
+    min-height: 100vh;
+    width: 100%;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.wardrobe .defaults {
+    width: 100%;
+    background-color: var(--bg-color);
+    height: 100%;
+    border-radius: 20px;
+    border: 2px solid var(--text-color);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+    margin-top: 30px;
+}
+
+.wardrobe .defaults h2 {
+    font-size: 2rem;
+    color: var(--text-color);
+    font-family: "Archivo", sans-serif;
+}
+
+.wardrobe .defaults .setup {
+    width: 100%;
+    height: 100%;
+    background-color: var(--hilyt-color);
+    border-radius: 20px;
+    border: 2px solid var(--text-color);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.setup .top-wear {
+    width: 100%;
+    height: 100%;
+    /* background-color: var(--bg-color); */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
+}
+
+.setup .top-wear h3 {
+    font-size: 1.6rem;
+    color: var(--text-color);
+    font-family: "Archivo", sans-serif;
+}
+
+.fit-options {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    /* background-color: cadetblue; */
+}
+
+.t-opt,
+.b-opt {
+    width: 200px;
+    height: 100px;
+    font-size: 1.6rem;
+    background-color: var(--bg-color);
+    border: 2px solid var(--text-color);
+    border-radius: 20px;
+    color: var(--text-color);
+    transition: .3s;
+    font-family: "Archivo", sans-serif;
+}
+
+.t-opt:hover,
+.b-opt:hover {
+    scale: 0.97;
+    border-radius: 10px;
+}
+
+.t-opt.selected,
+.b-opt.selected {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+.color-options {
+    width: 100%;
+    padding-top: 20px;
+    /* margin-left: 10px; */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    transition: .3s;
+    /* background-color: burlywood; */
+}
+
+.color-options .t-c-opt,
+.color-options .b-c-opt {
+    width: 50px;
+    height: 50px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--text-color);
+    border-radius: 25px;
+    cursor: pointer;
+    transition: .3s;
+
+}
+
+.color-options .t-c-opt:hover,
+.color-options .b-c-opt:hover {
+    /* scale: 1.1; */
+    border-radius: 10px;
+}
+
+.color-options .t-c-opt.selected,
+.color-options .b-c-opt.selected {
+    /* scale: 1.2; */
+    border-radius: 10px;
+    border: 1px solid var(--text-color);
+}
+
+.setup .bottom-wear {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.setup .bottom-wear h3 {
+    font-size: 1.6rem;
+    color: var(--text-color);
+    font-family: "Archivo", sans-serif;
+}
+
+.occassion {
+    gap: 30px;
+}
+
+.occassion h3 {
+    font-size: 1.6rem;
+    color: var(--text-color);
+    font-family: "Archivo", sans-serif;
+}
+
+.occassion .dropdown {
+    position: relative;
+    display: inline-block;
+    /* width: 100%; */
+}
+
+.occassion .dropdown-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 12px 16px;
+    border-radius: 20px;
+    border: 2px solid var(--text-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: "Archivo", sans-serif;
+    font-size: 1.6rem;
+    cursor: pointer;
+}
+
+.occassion .dropdown-toggle .caret {
+    border-top: 6px solid var(--text-color);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    height: 0;
+    width: 0;
+}
+
+.occassion .dropdown-menu {
+    position: absolute;
+    left: 0;
+    right: 0;
+    /* margin-top: 6px; */
+    background-color: var(--bg-color);
+    /* backdrop-filter: blur(10px); */
+    border-radius: 12px;
+    border: 2px solid var(--text-color);
+    list-style: none;
+    padding: 6px 0;
+    max-height: 220px;
+    overflow-y: auto;
+    opacity: 0;
+    transform: translateY(4px);
+    pointer-events: none;
+    transition: opacity .2s ease, transform .2s ease;
+    z-index: 10;
+}
+
+.occassion .dropdown:hover .dropdown-menu {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.occassion .dropdown-menu li {
+    padding: 8px 16px;
+    font-family: "Archivo", sans-serif;
+    font-size: 1.4rem;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.occassion .dropdown-menu li:hover,
+.occassion .dropdown-menu li.selected {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+.defaults #addOutfitBtn {
+    padding: 16px;
+    border-radius: 20px;
+    border: 2px solid var(--text-color);
+    background-color: var(--bg-color);
+    font-size: 1.4rem;
+    color: var(--text-color);
+    transition: .3s;
+}
+
+.defaults #addOutfitBtn:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+.preview-grid {
+    width: 100%;
+    height: fit-content;
+    padding: 20px;
+}
+
+.items {
+    list-style: none;
+}
+
+.items li {
+    font-family: "Archivo", sans-serif;
+    font-size: 1.4rem;
+    color: var(--text-color);
+    letter-spacing: 2px;
+    line-height: 1.6;
+}
+
+.outfit-score {
+    margin-top: 14px;
+    padding: 14px;
+    border-radius: 16px;
+    border: 1px solid var(--text-color);
+    background-color: var(--bg-color);
+}
+
+.outfit-score .score-badge {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    font-family: "Archivo", sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.outfit-score .score-reasons {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.outfit-score .score-reasons li {
+    font-family: "Archivo", sans-serif;
+    font-size: 1.2rem;
+    color: var(--text-color);
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+}
+
+
+
+@media (max-width: 900px) {
+    .homepage {
+        height: auto;
+        min-height: 100vh;
+        padding: 16px;
+    }
+
+    .homepage .navbar {
+        position: relative;
+        top: auto;
+        width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+    }
+
+    .homepage .hero .helper {
+        display: none;
+    }
+
+    .homepage .navbar h1 {
+        width: 100%;
+        height: auto;
+        min-height: 60px;
+        padding: 10px 0;
+        font-size: clamp(2rem, 8vw, 3rem);
+    }
+
+    .homepage .hero {
+        height: auto;
+        min-height: calc(100vh - 80px);
+        padding: clamp(20px, 4vw, 36px);
+        border-radius: 22px;
+    }
+
+    .homepage .hero p {
+        width: 100%;
+    }
+
+    .avatar {
+        padding: 20px;
+    }
+
+    .avatar .operation {
+        flex-direction: column;
+        height: auto;
+        gap: 18px;
+    }
+
+    .avatar .operation .preview {
+        width: 100%;
+        height: auto;
+    }
+
+    .avatar .operation .preview canvas {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 300 / 430;
+    }
+
+    .avatar .operation .measurements-tab {
+        width: 100%;
+        height: auto;
+    }
+
+    .avatar .operation .measurements-tab .skin-tones {
+        width: 100%;
+    }
+
+    .avatar .operation .measurements-tab .measurements {
+        height: auto;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: auto;
+    }
+
+    .wardrobe {
+        padding: 20px;
+    }
+
+    .wardrobe .defaults {
+        padding: 16px;
+    }
+
+    .wardrobe .defaults .setup {
+        height: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .homepage .hero .helper {
+        display: none;
+    }
+
+    .avatar .operation .measurements-tab .skin-and-gender {
+        flex-direction: column;
+        height: auto;
+        gap: 14px;
+    }
+
+    .avatar .operation .measurements-tab .skin-and-gender .gender {
+        width: 100%;
+        height: auto;
+    }
+
+    .avatar .operation .measurements-tab .measurements {
+        grid-template-columns: 1fr;
+    }
+
+    .wardrobe .defaults .setup {
+        justify-content: flex-start;
+        gap: 18px;
+    }
+
+    .setup .top-wear,
+    .setup .bottom-wear {
+        height: auto;
+        justify-content: flex-start;
+    }
+
+    .fit-options {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .t-opt,
+    .b-opt {
+        width: calc(50% - 6px);
+        height: 80px;
+        font-size: 1.2rem;
+        border-radius: 16px;
+    }
+
+    .color-options {
+        gap: 12px;
+    }
+
+    .color-options .t-c-opt,
+    .color-options .b-c-opt {
+        width: 44px;
+        height: 44px;
+    }
+
+    .occassion .dropdown-toggle {
+        font-size: 1.2rem;
+        padding: 10px 14px;
+        border-radius: 16px;
+    }
+
+    .defaults #addOutfitBtn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 380px) {
+
+    .t-opt,
+    .b-opt {
+        width: 100%;
+    }
+}

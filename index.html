@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Aguafina+Script&family=Allura&family=Archivo:ital,wght@0,100..900;1,100..900&family=Bilbo&family=Hurricane&family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Moon+Dance&display=swap"
+        rel="stylesheet">
+    <title>CheckTheFit</title>
+</head>
+
+<body>
+    <section class="homepage" id="homepage">
+        <nav class="navbar">
+            <h1><a href="#homepage">CheckTheFit</a></h1>
+            <!-- <div class="buttons">
+                <button>Login</button>
+                <button>SignUp</button>
+            </div> -->
+        </nav>
+        <div class="hero">
+            <h1>Find your <span>perfect</span> fit.</h1>
+            <p>Enter your measurements, browse your wardrobe, and let us recommend the ideal outfit for any occasion.
+            </p>
+            <div class="helper">
+                <!-- helper!! -->
+                
+            </div>
+        </div>
+    </section>
+
+
+    <section class="features">
+        <h1 class="heading">Features</h1>
+        <div class="features-set">
+            <div class="feature">
+                <h2>Smart Body Analysis</h2>
+                <p>Enter your measurements and get a visual avatar with body type detection to understand what outfits
+                    suit you best.</p>
+            </div>
+            <div class="feature">
+                <h2>What Should I Wear?</h2>
+                <p>Confused between outfits? Let CheckTheFit suggest the best option for your body type and occasion.
+                </p>
+            </div>
+            <div class="feature">
+                <h2>Your Digital Wardrobe</h2>
+                <p>Upload your own outfits or use our default wardrobe and see what works best for your body and
+                    occasion.</p>
+            </div>
+            <div class="feature">
+                <h2>Coming Soon</h2>
+                <p>Paste a shopping link from any online store and CheckTheFit will analyze if it suits your body type
+                    before you buy.</p>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="avatar">
+        <h1 class="heading">Create your avatar</h1>
+        <p class="tag">Help us understand your body to recommend the best fit.</p>
+        <div class="operation">
+            <div class="preview">
+                <canvas id="avatarCanvas">
+
+                </canvas>
+                <h3 id="bodyTypeText">Body type: </h3>
+            </div>
+            <div class="measurements-tab">
+                <div class="skin-and-gender">
+                    <div class="gender">
+                        <h3>Gender: </h3>
+                        <div class="genders">
+                            <button class="gender-btn" data-gender="male">Male</button>
+                            <button class="gender-btn" data-gender="female">Female</button>
+                        </div>
+                    </div>
+                    <div class="skin-tones">
+                        <h3>Skin Tone: </h3>
+                        <div class="tones">
+                            <button class="tone" data-tone="#fdebd0" style="background-color: #fdebd0;"></button>
+                            <button class="tone" data-tone="#f5cba7" style="background-color: #f5cba7;"></button>
+                            <button class="tone" data-tone="#d4a574" style="background-color: #d4a574;"></button>
+                            <button class="tone" data-tone="#c4a882" style="background-color: #c4a882;"></button>
+                            <button class="tone" data-tone="#a0785a" style="background-color: #a0785a;"></button>
+                            <button class="tone" data-tone="#6f4e37" style="background-color: #6f4e37;"></button>
+                            <button class="tone" data-tone="#3e2723" style="background-color: #3e2723;"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="measurements">
+                    <div class="measurement">
+                        <h3>Height</h3>
+                        <p id="height-value">170 cm</p>
+                        <input type="range" name="height" id="height" min="120" max="220">
+                    </div>
+                    <div class="measurement">
+                        <h3>Weight</h3>
+                        <p id="weight-value">70 kg</p>
+                        <input type="range" name="weight" id="weight" min="30" max="200">
+                    </div>
+                    <div class="measurement">
+                        <h3>Chest</h3>
+                        <p id="chest-value">96 cm</p>
+                        <input type="range" name="chest" id="chest" min="60" max="150">
+                    </div>
+                    <div class="measurement">
+                        <h3>Waist</h3>
+                        <p id="waist-value">82 cm</p>
+                        <input type="range" name="waist" id="waist" min="50" max="140">
+                    </div>
+                    <div class="measurement">
+                        <h3>Hips</h3>
+                        <p id="hips-value">96 cm</p>
+                        <input type="range" name="hips" id="hips" min="50" max="150">
+                    </div>
+                    <div class="measurement">
+                        <h3>Shoulders</h3>
+                        <p id="shoulders-value">46 cm</p>
+                        <input type="range" name="shoulders" id="shoulders" min="30" max="70">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="wardrobe">
+        <h1 class="heading">Wardrobe</h1>
+        <p class="tag">Select default clothes or upload your own.</p>
+        <div class="defaults">
+            <h2>Select Outfit</h2>
+            <div class="top setup">
+                <div class="top-wear">
+                    <h3>Choose Top</h3>
+                    <div class="fit-options" id="topOptions">
+                        <button class="t-opt" data-type="Shirt">Shirt</button>
+                        <button class="t-opt" data-type="T-shirt">T-Shirt</button>
+                        <button class="t-opt" data-type="Hoodie">Hoodie</button>
+                        <button class="t-opt" data-type="Blazer">Blazer</button>
+                    </div>
+                </div>
+                <div class="color-options" id="topColorOptions">
+                    <button class="t-c-opt" data-topcolor="Black" style="background-color: black;"></button>
+                    <button class="t-c-opt" data-topcolor="White" style="background-color: white;"></button>
+                    <button class="t-c-opt" data-topcolor="Blue" style="background-color: rgb(121, 181, 255);"></button>
+                    <button class="t-c-opt" data-topcolor="Red" style="background-color: rgb(248, 78, 78);"></button>
+                </div>
+            </div>
+            <div class="bottom setup">
+                <div class="bottom-wear">
+                    <h3>Choose Bottom</h3>
+                    <div class="fit-options" id="bottomOptions">
+                        <button class="b-opt" data-type="Jeans">Jeans</button>
+                        <button class="b-opt" data-type="Trousers"> Formal Pants</button>
+                        <button class="b-opt" data-type="Shorts">Shorts</button>
+                    </div>
+                </div>
+                <div class="color-options" id="bottomColorOptions">
+                    <button class="b-c-opt" data-bottomcolor="Black" style="background-color: black;"></button>
+                    <button class="b-c-opt" data-bottomcolor="Blue" style="background-color: rgb(36, 36, 84);"></button>
+                    <button class="b-c-opt" data-bottomcolor="Grey" style="background-color: gray;"></button>
+                    <button class="b-c-opt" data-bottomcolor="Beige" style="background-color: beige;"></button>
+                </div>
+            </div>
+            <div class="occassion setup">
+                <h3>Occasion</h3>
+                <div class="dropdown" id="occasionDropdown">
+                    <button type="button" class="dropdown-toggle">
+                        <span id="occasionLabel">Select occasion</span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" id="occasionOptions">
+                        <li data-value="casual">Casual</li>
+                        <li data-value="formal">Formal</li>
+                        <li data-value="party">Party</li>
+                        <li data-value="date">Date</li>
+                    </ul>
+                </div>
+            </div>
+            <button id="addOutfitBtn" onclick="updateFit()">Add Outfit</button>
+            <div class="view-wardrobe">
+                <h2>Your Wardrobe</h2>
+                <div id="wardrobePreview" class="preview-grid">
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
