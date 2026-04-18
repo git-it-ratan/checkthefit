@@ -6,12 +6,14 @@ let hips = document.getElementById("hips")
 let shoulders = document.getElementById("shoulders")
 let tones = document.querySelectorAll('.tone')
 let genderBtns = document.querySelectorAll('.gender-btn')
-let topFitBtns = document.querySelectorAll('.t-opt')
 let topFitColorBtns = document.querySelectorAll('.t-c-opt')
-let bottomFitBtns = document.querySelectorAll('.b-opt')
 let bottomFitColorBtns = document.querySelectorAll('.b-c-opt')
 let occasionOptions = document.querySelectorAll('#occasionOptions li')
 let occasionLabel = document.getElementById('occasionLabel')
+
+let topOptionsEl = document.getElementById("topOptions")
+let bottomOptionsEl = document.getElementById("bottomOptions")
+let wardrobeHeadingEl = document.getElementById("wardrobeHeading")
 
 let userData = {
     gender: null,
@@ -24,6 +26,110 @@ let userData = {
     skinTone: null,
     occasion: null,
     outfits: []
+}
+
+const wardrobeByGender = {
+    male: {
+        tops: ["Shirt", "T-Shirt", "Hoodie", "Blazer", "Sweater"],
+        bottoms: ["Jeans", "Trousers", "Shorts"]
+    },
+    female: {
+        tops: ["Top", "T-Shirt", "Kurti", "Blouse", "Hoodie"],
+        bottoms: ["Jeans", "Trousers", "Skirt", "Leggings"]
+    },
+    unisex: {
+        tops: ["T-Shirt", "Hoodie", "Sweater"],
+        bottoms: ["Jeans", "Trousers"]
+    }
+}
+
+document.addEventListener("DOMContentLoaded", (event) => {
+    gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText)
+});
+
+document.fonts.ready.then(() => {
+    let titleSplit = SplitText.create(".brand-name", {
+        type: "chars",
+        wordsClass: "char++"
+    })
+    let descSplit = SplitText.create(".desc", {
+        type: "words",
+        wordsClass: "word++"
+    })
+    gsap.from(titleSplit.chars, {
+        // scrollTrigger: {
+        //     trigger: ".desc",
+        //     start: "top 80%",
+        //     end: "top 30%",
+        //     scrub: true,
+        //     // end: "top 10%",
+        //     toggleActions: "play none none reverse"
+        // },
+        y: -100,
+        delay: 0.2,
+        opacity: 0.2,
+        stagger: 0.04,
+    })
+    gsap.from(descSplit.words, {
+        scrollTrigger: {
+            trigger: ".desc",
+            start: "top 80%",
+            end: "top 30%",
+            scrub: true,
+            // end: "top 10%",
+            toggleActions: "play none none reverse"
+        },
+        // y: -100,
+        opacity: 0.2,
+        stagger: 0.04,
+    })
+})
+
+gsap.utils.toArray(".feature").forEach((feature) => {
+    gsap.fromTo(
+        feature,
+        { y: 80, opacity: 0 },
+        {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: feature,
+                start: "top 85%",
+                end: "top 60%",
+                scrub: 0.1,
+                toggleActions: "play none none reverse",
+            },
+        }
+    )
+})
+
+
+function renderWardrobeOptions(gender) {
+    const key = wardrobeByGender[gender] ? gender : "unisex"
+    const config = wardrobeByGender[key]
+
+    topOptionsEl.innerHTML = config.tops
+        .map(t => `<button class="t-opt" data-type="${t}">${t}</button>`)
+        .join("")
+
+    bottomOptionsEl.innerHTML = config.bottoms
+        .map(b => `<button class="b-opt" data-type="${b}">${b}</button>`)
+        .join("")
+
+    // Reset selections when wardrobe changes
+    userData.outfits[0] = null
+    userData.outfits[2] = null
+}
+
+function updateWardrobeHeading() {
+    if (!wardrobeHeadingEl) return
+    if (!userData.gender) {
+        wardrobeHeadingEl.innerText = "Please select your gender"
+    } else {
+        wardrobeHeadingEl.innerText = "Select Outfit"
+    }
 }
 
 height.addEventListener("input", () => {
@@ -84,6 +190,9 @@ genderBtns.forEach(btn => {
 
         userData.gender = btn.dataset.gender
         console.log(userData.gender)
+
+        renderWardrobeOptions(userData.gender)
+        updateWardrobeHeading()
     })
 })
 
@@ -235,20 +344,22 @@ function detectBodyType() {
 
 detectBodyType()
 
+// Initial wardrobe buttons (before choosing gender)
+renderWardrobeOptions(userData.gender)
+updateWardrobeHeading()
+
 // let outfit = {
 //     top: null,
 //     bottom: null,
 //     occassion: null
 // }
 
-topFitBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-        topFitBtns.forEach(b => b.classList.remove("selected"))
-        btn.classList.add("selected")
-
-        userData.outfits[0] = btn.dataset.type
-        // console.log(userData)
-    })
+topOptionsEl.addEventListener("click", (e) => {
+    const btn = e.target.closest(".t-opt")
+    if (!btn) return
+    topOptionsEl.querySelectorAll(".t-opt").forEach(b => b.classList.remove("selected"))
+    btn.classList.add("selected")
+    userData.outfits[0] = btn.dataset.type
 })
 
 topFitColorBtns.forEach(btn => {
@@ -261,14 +372,12 @@ topFitColorBtns.forEach(btn => {
     })
 })
 
-bottomFitBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-        bottomFitBtns.forEach(b => b.classList.remove("selected"))
-        btn.classList.add("selected")
-
-        userData.outfits[2] = btn.dataset.type
-        // console.log(userData)
-    })
+bottomOptionsEl.addEventListener("click", (e) => {
+    const btn = e.target.closest(".b-opt")
+    if (!btn) return
+    bottomOptionsEl.querySelectorAll(".b-opt").forEach(b => b.classList.remove("selected"))
+    btn.classList.add("selected")
+    userData.outfits[2] = btn.dataset.type
 })
 
 bottomFitColorBtns.forEach(btn => {
@@ -296,6 +405,7 @@ occasionOptions.forEach(option => {
 let addOutfitBtn = document.getElementById("addOutfitBtn")
 let wardrobe = document.getElementById("wardrobePreview")
 
+
 function normalizeToken(value) {
     return String(value ?? "").trim().toLowerCase()
 }
@@ -306,6 +416,7 @@ function analyzeOutfit() {
     const bottomType = normalizeToken(userData.outfits[2])
     const bottomColor = normalizeToken(userData.outfits[3])
     const occasion = normalizeToken(userData.occasion)
+    const gender = normalizeToken(userData.gender)
 
     const missing = []
     if (!topType) missing.push("top type")
@@ -313,6 +424,7 @@ function analyzeOutfit() {
     if (!bottomType) missing.push("bottom type")
     if (!bottomColor) missing.push("bottom color")
     if (!occasion) missing.push("occasion")
+    if (!gender) missing.push("gender")
 
     if (missing.length) {
         return {
@@ -332,6 +444,26 @@ function analyzeOutfit() {
     const isNeutralBottom = neutrals.has(bottomColor)
     const sameColor = topColor === bottomColor
 
+    const genderTops = {
+        male: new Set(["shirt", "t-shirt", "tshirt", "hoodie", "blazer", "sweater"]),
+        female: new Set(["top", "t-shirt", "tshirt", "kurti", "blouse", "hoodie", "blazer", "sweater"])
+    }
+    const genderBottoms = {
+        male: new Set(["jeans", "trousers", "shorts"]),
+        female: new Set(["jeans", "trousers", "skirt", "leggings"])
+    }
+
+    const topAllowed = genderTops[gender]
+    const bottomAllowed = genderBottoms[gender]
+    if (!topAllowed?.has(topType)) {
+        score -= 25
+        reasons.push(`This top doesn't match the selected gender wardrobe.`)
+    }
+    if (!bottomAllowed?.has(bottomType)) {
+        score -= 25
+        reasons.push(`This bottom doesn't match the selected gender wardrobe.`)
+    }
+
     if (isNeutralTop || isNeutralBottom) {
         score += 10
         reasons.push("Neutral + color pairing is usually easy to pull off.")
@@ -344,17 +476,54 @@ function analyzeOutfit() {
         reasons.push("Two strong colors can clash—keep one piece neutral.")
     }
 
-    const formalTops = new Set(["shirt", "blazer"])
-    const formalBottoms = new Set(["trousers", "formal pants"])
-    const casualTops = new Set(["t-shirt", "tshirt", "hoodie", "shirt"])
-    const casualBottoms = new Set(["jeans", "shorts", "trousers"])
+    const formalTopByGender = {
+        male: new Set(["shirt", "blazer"]),
+        female: new Set(["kurti", "blouse", "blazer", "shirt"])
+    }
+    const formalBottomByGender = {
+        male: new Set(["trousers"]),
+        female: new Set(["trousers", "skirt"])
+    }
+    const casualTopByGender = {
+        male: new Set(["t-shirt", "tshirt", "hoodie", "shirt", "sweater"]),
+        female: new Set(["top", "t-shirt", "tshirt", "hoodie", "kurti", "sweater"])
+    }
+    const casualBottomByGender = {
+        male: new Set(["jeans", "shorts", "trousers"]),
+        female: new Set(["jeans", "leggings", "trousers", "skirt"])
+    }
+    const partyTopByGender = {
+        male: new Set(["blazer", "shirt", "t-shirt", "tshirt"]),
+        female: new Set(["blouse", "top", "kurti", "blazer"])
+    }
+    const partyBottomByGender = {
+        male: new Set(["jeans", "trousers"]),
+        female: new Set(["skirt", "jeans", "trousers"])
+    }
+    const dateTopByGender = {
+        male: new Set(["shirt", "t-shirt", "tshirt", "blazer", "sweater"]),
+        female: new Set(["top", "blouse", "kurti", "t-shirt", "tshirt", "sweater"])
+    }
+    const dateBottomByGender = {
+        male: new Set(["jeans", "trousers"]),
+        female: new Set(["jeans", "skirt", "trousers", "leggings"])
+    }
+
+    const formalTops = formalTopByGender[gender] ?? new Set()
+    const formalBottoms = formalBottomByGender[gender] ?? new Set()
+    const casualTops = casualTopByGender[gender] ?? new Set()
+    const casualBottoms = casualBottomByGender[gender] ?? new Set()
+    const partyTops = partyTopByGender[gender] ?? new Set()
+    const partyBottoms = partyBottomByGender[gender] ?? new Set()
+    const dateTops = dateTopByGender[gender] ?? new Set()
+    const dateBottoms = dateBottomByGender[gender] ?? new Set()
 
     if (occasion === "formal") {
         if (formalTops.has(topType)) score += 10
-        else { score -= 12; reasons.push("Formal usually needs a shirt or blazer.") }
+        else { score -= 12; reasons.push("Formal outfits usually need a structured top (e.g., shirt/blazer/kurti/blouse).") }
 
         if (formalBottoms.has(bottomType)) score += 10
-        else { score -= 12; reasons.push("Formal usually needs trousers/formal pants.") }
+        else { score -= 12; reasons.push("Formal outfits usually need trousers (or a skirt for female).") }
 
         if (topColor === "red") { score -= 6; reasons.push("Red can feel loud for formal—black/white/blue works better.") }
     }
@@ -365,11 +534,18 @@ function analyzeOutfit() {
     }
 
     if (occasion === "party") {
-        if (topColor === "red" || topType === "blazer") { score += 8; reasons.push("Party looks can handle bolder tops.") }
+        if (partyTops.has(topType)) score += 6
+        if (partyBottoms.has(bottomType)) score += 6
+        if (topColor === "red" || topType === "blazer" || bottomType === "skirt") {
+            score += 6
+            reasons.push("Party looks can handle bolder pieces.")
+        }
         if (sameColor && isNeutralTop) { score -= 4; reasons.push("All-neutral monochrome can look plain for party—add a pop color.") }
     }
 
     if (occasion === "date") {
+        if (dateTops.has(topType)) score += 6
+        if (dateBottoms.has(bottomType)) score += 6
         if (topColor === "red") { score += 5; reasons.push("Red is a confident date color (when balanced).") }
         if (!isNeutralBottom && !isNeutralTop) { score -= 4; reasons.push("For date, one neutral piece usually looks sharper.") }
     }
@@ -453,3 +629,5 @@ function updateFit() {
     console.log(userData.outfits[2])
     console.log(userData.outfits[3])
 }
+
+console.log(userData)

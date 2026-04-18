@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Moonscape";
+    src: url(/Moonscape-Font/moonscape-demo.otf) format("opentype");
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -5,17 +10,17 @@
 }
 
 :root {
-    --bg-color: #f5e6e8;
-    /* E0E2DB */
-    --text-color: #2a1633;
-    --hilyt-color: #967aa1;
-    /* d5c6e0 967aa1*/
+    --bg-color: #cfc2fa;
+    /* E0E2DB *eaeffe cfc2fa b3a9f8 */
+    --text-color: #19181e;
+    --hilyt-color: #695eae;
+    /* d5c6e0 967aa1 b89ccb*/
     --acc-color: #240046;
     /* 9b5de5 */
 }
 
 ::selection {
-    color: var(--hilyt-color);
+    color: var(--bg-color);
     background-color: var(--text-color);
 }
 
@@ -39,6 +44,7 @@ body {
     padding: 30px;
     justify-items: center;
     margin-bottom: 0px;
+    /* background-color: #240046; */
 }
 
 .homepage .navbar {
@@ -63,9 +69,9 @@ body {
     /* background-color: var(--bg-color); */
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-family: "Moon Dance", sans-serif;
+    font-family: "Outfit", sans-serif;
     font-size: clamp(2rem, 10vw, 3.5rem);
-    /* letter-spacing: 2px; */
+    letter-spacing: -4px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -104,18 +110,21 @@ body {
 
 .homepage .hero {
     background-color: var(--hilyt-color);
+    background: url(imges/bg.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
     height: calc(100vh - 60px);
     width: 100%;
-    padding: 50px;
+    /* padding: 50px; */
     border-radius: 30px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     position: relative;
     overflow: hidden;
 }
-
 
 .homepage .hero .helper {
     width: 60%;
@@ -133,7 +142,7 @@ body {
     content: "";
     width: 40px;
     height: 40px;
-    background-color: var(--hilyt-color);
+    background-color: transparent;
     position: absolute;
     top: 4px;
     left: -40px;
@@ -147,7 +156,7 @@ body {
     content: "";
     width: 40px;
     height: 40px;
-    background-color: var(--hilyt-color);
+    background-color: transparent;
     position: absolute;
     top: 4px;
     right: -40px;
@@ -157,26 +166,52 @@ body {
     /* border-bottom-right-radius: 20px; */
 }
 
+.homepage .hero .brand-name {
+    /* width: 50%; */
+    font-size: clamp(2rem, 15vw, 20rem);
+    font-family: "Outfit", sans-serif;
+    color: var(--text-color);
+    letter-spacing: -15px;
+    text-align: center;
+    /* transform: scale(1.3); */
+    /* transform-origin: left; */
+    /* background-color: #fff; */
+}
 
-.homepage .hero h1 {
-    font-size: clamp(5rem, 10vw, 7rem);
+.banner {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 30px;
+    /* margin-bottom: 30px; */
+    /* background-color: #2d274b; */
+}
+
+.banner h1 {
+    font-size: clamp(2rem, 15vw, 8rem);
     font-family: "Hurricane", sans-serif;
     color: var(--text-color);
+    letter-spacing: 0px;
     text-align: center;
 }
 
-.homepage .hero h1 span {
-    color: var(--bg-color);
-}
-
-.homepage .hero p {
+.banner p {
+    margin-top: 30px;
+    width: 80%;
+    font-size: 4rem;
+    font-family: "Outfit", sans-serif;
     color: var(--text-color);
-    font-family: "Archivo", sans-serif;
-    font-size: 1.4rem;
+    letter-spacing: 0px;
     text-align: center;
-    /* background-color: #fff; */
-    width: 60%;
-    letter-spacing: 2px;
+}
+
+.word9 {
+    background-color: var(--hilyt-color);
+    border-radius: 16px;
+    padding: 5px;
 }
 
 .heading {
@@ -187,7 +222,7 @@ body {
 
 .tag {
     color: var(--text-color);
-    font-family: "Archivo", sans-serif;
+    font-family: "Outfit", sans-serif;
     font-size: 1.4rem;
     /* background-color: #fff; */
     width: 100%;
@@ -226,7 +261,7 @@ body {
 .features .features-set .feature {
     width: 100%;
     min-height: 0;
-    background-color: var(--hilyt-color);
+    /* background-color: var(--hilyt-color); */
     border-radius: 20px;
     padding: clamp(18px, 3vw, 28px);
     display: flex;
@@ -234,27 +269,47 @@ body {
     align-items: flex-start;
     justify-content: flex-start;
     gap: clamp(12px, 2vw, 20px);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-radius 0.25s ease;
+    transition: transform 0.25s ease, border-radius 0.25s ease;
+    border: 2px solid var(--text-color);
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+}
+.features .features-set .feature:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--hilyt-color);
+    border-radius: 20px;
+    z-index: 1;
+    transition: transform 0.25s ease, border-radius 0.25s ease;
 }
 
-.features .features-set .feature:hover {
+.features .features-set .feature:hover::before {
+    transform: translateY(-100%);
     border-radius: 16px;
-    box-shadow: 0 12px 32px rgba(42, 22, 51, 0.12);
 }
 
 .features .features-set .feature h2 {
     font-size: clamp(1.35rem, 2.5vw, 2.3rem);
     color: var(--text-color);
-    font-family: "Archivo", sans-serif;
+    font-family: "Outfit", sans-serif;
     line-height: 1.2;
+    z-index: 2;
 }
 
 .features .features-set .feature p {
-    font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+    font-size: clamp(1.1rem, 1.5vw, 2rem);
     color: var(--text-color);
-    font-family: "Archivo", sans-serif;
-    letter-spacing: clamp(0.5px, 0.2vw, 2px);
+    font-family: "Outfit", sans-serif;
+    letter-spacing: 0;
     line-height: 1.65;
+    text-align: left;
+    z-index: 2;
+    /* text-justify: distribute; */
 }
 
 .features .features-set .feature:last-child {
@@ -310,7 +365,7 @@ body {
 
 .avatar .operation .preview h3 {
     font-size: 1.6rem;
-    font-family: "Archivo", sans-serif;
+    font-family: "Outfit", sans-serif;
     color: var(--text-color);
 }
 
@@ -339,7 +394,7 @@ body {
 
 .avatar .operation .measurements-tab .skin-tones h3 {
     font-size: 1.6rem;
-    font-family: "Archivo", sans-serif;
+    font-family: "Outfit", sans-serif;
     color: var(--text-color);
 }
 
@@ -394,7 +449,7 @@ body {
 
 .avatar .operation .measurements-tab .skin-and-gender .gender h3 {
     font-size: 1.6rem;
-    font-family: "Archivo", sans-serif;
+    font-family: "Outfit", sans-serif;
     color: var(--text-color);
 }
 
@@ -414,7 +469,7 @@ body {
     border: 1px solid var(--text-color);
     cursor: pointer;
     transition: 0.2s;
-    font-family: "Archivo";
+    font-family: "Outfit";
     font-size: 1.2rem;
 }
 
@@ -426,7 +481,6 @@ body {
 .avatar .operation .measurements-tab .skin-and-gender .gender .gender-btn.selected {
     background-color: var(--text-color);
     color: var(--bg-color);
-    border: 1px solid var(--bg-color);
 }
 
 .avatar .operation .measurements-tab .measurements {
@@ -457,13 +511,13 @@ body {
 
 .avatar .operation .measurements-tab .measurements .measurement h3 {
     font-size: 1.6rem;
-    font-family: "Archivo", sans-serif;
+    font-family: "Outfit", sans-serif;
     color: var(--text-color);
 }
 
 .avatar .operation .measurements-tab .measurements .measurement p {
     font-size: 1.6rem;
-    font-family: "Archivo", sans-serif;
+    font-family: "Outfit", sans-serif;
     color: var(--text-color);
 }
 
@@ -501,7 +555,7 @@ body {
 .wardrobe .defaults h2 {
     font-size: 2rem;
     color: var(--text-color);
-    font-family: "Archivo", sans-serif;
+    font-family: "Outfit", sans-serif;
 }
 
 .wardrobe .defaults .setup {
@@ -531,7 +585,7 @@ body {
 .setup .top-wear h3 {
     font-size: 1.6rem;
     color: var(--text-color);
-    font-family: "Archivo", sans-serif;
+    font-family: "Outfit", sans-serif;
 }
 
 .fit-options {
@@ -553,7 +607,7 @@ body {
     border-radius: 20px;
     color: var(--text-color);
     transition: .3s;
-    font-family: "Archivo", sans-serif;
+    font-family: "Outfit", sans-serif;
 }
 
 .t-opt:hover,
@@ -616,7 +670,7 @@ body {
 .setup .bottom-wear h3 {
     font-size: 1.6rem;
     color: var(--text-color);
-    font-family: "Archivo", sans-serif;
+    font-family: "Outfit", sans-serif;
 }
 
 .occassion {
@@ -626,7 +680,7 @@ body {
 .occassion h3 {
     font-size: 1.6rem;
     color: var(--text-color);
-    font-family: "Archivo", sans-serif;
+    font-family: "Outfit", sans-serif;
 }
 
 .occassion .dropdown {
@@ -646,7 +700,7 @@ body {
     border: 2px solid var(--text-color);
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-family: "Archivo", sans-serif;
+    font-family: "Outfit", sans-serif;
     font-size: 1.6rem;
     cursor: pointer;
 }
@@ -687,7 +741,7 @@ body {
 
 .occassion .dropdown-menu li {
     padding: 8px 16px;
-    font-family: "Archivo", sans-serif;
+    font-family: "Outfit", sans-serif;
     font-size: 1.4rem;
     color: var(--text-color);
     cursor: pointer;
@@ -725,7 +779,7 @@ body {
 }
 
 .items li {
-    font-family: "Archivo", sans-serif;
+    font-family: "Outfit", sans-serif;
     font-size: 1.4rem;
     color: var(--text-color);
     letter-spacing: 2px;
@@ -746,7 +800,7 @@ body {
     border-radius: 999px;
     background-color: var(--text-color);
     color: var(--bg-color);
-    font-family: "Archivo", sans-serif;
+    font-family: "Outfit", sans-serif;
     font-size: 1.2rem;
     letter-spacing: 1px;
     margin-bottom: 10px;
@@ -758,7 +812,7 @@ body {
 }
 
 .outfit-score .score-reasons li {
-    font-family: "Archivo", sans-serif;
+    font-family: "Outfit", sans-serif;
     font-size: 1.2rem;
     color: var(--text-color);
     letter-spacing: 0.5px;
@@ -801,7 +855,18 @@ body {
         border-radius: 22px;
     }
 
-    .homepage .hero p {
+    .banner {
+        padding: 20px;
+        height: auto;
+        border-radius: 22px;
+    }
+    
+    .banner h1 {
+        font-size: clamp(2rem, 8vw, 3rem);
+    }
+    .banner P {
+        font-size: 1.4rem;
+        text-align: center;
         width: 100%;
     }
 
@@ -857,6 +922,12 @@ body {
 @media (max-width: 600px) {
     .homepage .hero .helper {
         display: none;
+    }
+
+    .banner p {
+        width: 100%;
+        text-align: center;
+        font-size: 1.4rem;
     }
 
     .avatar .operation .measurements-tab .skin-and-gender {

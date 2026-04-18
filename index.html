@@ -7,18 +7,8 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Aguafina+Script&family=Allura&family=Archivo:ital,wght@0,100..900;1,100..900&family=Bilbo&family=Hurricane&family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Moon+Dance&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Hurricane&family=Moon+Dance&family=Outfit:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
         rel="stylesheet">
     <title>CheckTheFit</title>
 </head>
@@ -33,14 +23,20 @@
             </div> -->
         </nav>
         <div class="hero">
-            <h1>Find your <span>perfect</span> fit.</h1>
-            <p>Enter your measurements, browse your wardrobe, and let us recommend the ideal outfit for any occasion.
-            </p>
+            <h1 class="brand-name">CheckTheFit</h1>
+            <!-- <p>Enter your measurements, browse your wardrobe, and let us recommend the ideal outfit for any occasion.
+            </p> -->
             <div class="helper">
                 <!-- helper!! -->
-                
+
             </div>
         </div>
+    </section>
+
+    <section class="banner">
+        <h1 class="tag-at-home">Find your <span>perfect</span> fit.</h1>
+        <p class="desc">Enter your measurements, browse your wardrobe, and let CheckTheFit recommend the ideal outfit for any
+            occasion.</p>
     </section>
 
 
@@ -63,13 +59,14 @@
                     occasion.</p>
             </div>
             <div class="feature">
-                <h2>Coming Soon</h2>
+                <h2>Coming Soon....</h2>
                 <p>Paste a shopping link from any online store and CheckTheFit will analyze if it suits your body type
                     before you buy.</p>
             </div>
         </div>
-
     </section>
+
+
 
     <section class="avatar">
         <h1 class="heading">Create your avatar</h1>
@@ -141,17 +138,14 @@
 
     <section class="wardrobe">
         <h1 class="heading">Wardrobe</h1>
-        <p class="tag">Select default clothes or upload your own.</p>
+        <p class="tag">Select default clothes or upload your own(future feature).</p>
         <div class="defaults">
-            <h2>Select Outfit</h2>
+            <h2 id="wardrobeHeading">Select Outfit</h2>
             <div class="top setup">
                 <div class="top-wear">
                     <h3>Choose Top</h3>
                     <div class="fit-options" id="topOptions">
-                        <button class="t-opt" data-type="Shirt">Shirt</button>
-                        <button class="t-opt" data-type="T-shirt">T-Shirt</button>
-                        <button class="t-opt" data-type="Hoodie">Hoodie</button>
-                        <button class="t-opt" data-type="Blazer">Blazer</button>
+                        <!-- -->
                     </div>
                 </div>
                 <div class="color-options" id="topColorOptions">
@@ -165,9 +159,7 @@
                 <div class="bottom-wear">
                     <h3>Choose Bottom</h3>
                     <div class="fit-options" id="bottomOptions">
-                        <button class="b-opt" data-type="Jeans">Jeans</button>
-                        <button class="b-opt" data-type="Trousers"> Formal Pants</button>
-                        <button class="b-opt" data-type="Shorts">Shorts</button>
+                        <!--  -->
                     </div>
                 </div>
                 <div class="color-options" id="bottomColorOptions">
@@ -201,7 +193,11 @@
             </div>
         </div>
     </section>
-
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollSmoother.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
+    
     <script src="script.js"></script>
 </body>
 
