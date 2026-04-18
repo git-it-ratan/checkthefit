@@ -10,12 +10,12 @@
 }
 
 :root {
-    --bg-color: #cfc2fa;
+    --bg-color: #fff;
     /* E0E2DB *eaeffe cfc2fa b3a9f8 */
-    --text-color: #19181e;
-    --hilyt-color: #695eae;
-    /* d5c6e0 967aa1 b89ccb*/
-    --acc-color: #240046;
+    --text-color: #000000;
+    --hilyt-color: #bb5982;
+    /* d5c6e0 967aa1 b89ccb BC8DA0*/
+    --acc-color: #000000;
     /* 9b5de5 */
 }
 
@@ -110,7 +110,7 @@ body {
 
 .homepage .hero {
     background-color: var(--hilyt-color);
-    background: url(imges/bg.jpg);
+    background: url(imges/bg3.jpeg);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -170,7 +170,7 @@ body {
     /* width: 50%; */
     font-size: clamp(2rem, 15vw, 20rem);
     font-family: "Outfit", sans-serif;
-    color: var(--text-color);
+    color: var(--bg-color);
     letter-spacing: -15px;
     text-align: center;
     /* transform: scale(1.3); */
