@@ -5,7 +5,7 @@
 
 @font-face {
     font-family: "Kugile";
-    src: url(Kugile-Font/Kugile_Demo.ttf) format("truetype");
+    src: url(fonts/Kugile-Font/Kugile_Demo.ttf) format("truetype");
 }
 
 * {
