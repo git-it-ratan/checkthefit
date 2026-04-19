@@ -65,9 +65,9 @@ document.fonts.ready.then(() => {
         //     // end: "top 10%",
         //     toggleActions: "play none none reverse"
         // },
-        y: -100,
+        x: -100,
         delay: 0.2,
-        opacity: 0.2,
+        opacity: 0,
         stagger: 0.04,
     })
     gsap.from(descSplit.words, {
