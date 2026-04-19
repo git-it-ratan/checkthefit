@@ -156,14 +156,39 @@ body {
 }
 
 .hero .cta-buttons {
-    width: 100%;
-    height: fit-content;
-    /* background-color: #fff; */
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: max-content;
+    background-color: var(--bg-color);
+    border-radius: 30px 0 30px 0;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 20px;
     padding: 20px;
+}
+
+.hero .cta-buttons::after {
+    content: "";
+    position: absolute;
+    top: -30px;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle at 0 0, transparent 30px, var(--bg-color) 30px);
+    pointer-events: none;
+}
+
+.hero .cta-buttons::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: -30px;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle at 0 0, transparent 30px, var(--bg-color) 30px);
+    pointer-events: none;
 }
 
 .hero .cta-buttons button:nth-child(2) {
@@ -1006,13 +1031,32 @@ body {
     }
 
     .hero .cta-buttons {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        right: auto;
+        background-color: transparent;
+        padding: 0;
+        width: 100%;
         flex-direction: column;
         gap: 15px;
+    }
+
+    .hero .cta-buttons::after,
+    .hero .cta-buttons::before {
+        display: none;
     }
 
     .hero .cta-buttons button {
         width: 100%;
         max-width: 300px;
+    }
+
+    .hero .cta-buttons button:nth-child(1),
+    .hero .cta-buttons button:nth-child(2) {
+        padding: 12px 20px;
+        font-size: 1.1rem;
     }
 
     .banner p {
