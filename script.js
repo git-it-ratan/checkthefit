@@ -50,26 +50,30 @@ document.addEventListener("DOMContentLoaded", (event) => {
 document.fonts.ready.then(() => {
     let titleSplit = SplitText.create(".brand-name", {
         type: "chars",
-        wordsClass: "char++"
+    })
+    let tagSplit = SplitText.create(".tag-at-home", {
+        type: "chars",
     })
     let descSplit = SplitText.create(".desc", {
         type: "words",
         wordsClass: "word++"
     })
     gsap.from(titleSplit.chars, {
-        // scrollTrigger: {
-        //     trigger: ".desc",
-        //     start: "top 80%",
-        //     end: "top 30%",
-        //     scrub: true,
-        //     // end: "top 10%",
-        //     toggleActions: "play none none reverse"
-        // },
         x: -100,
+        scale: 0,
         delay: 0.2,
         opacity: 0,
         stagger: 0.04,
     })
+
+    gsap.from(tagSplit.chars, {
+        x: 100,
+        scale: 0,
+        delay: 1,
+        opacity: 0,
+        stagger: 0.04,
+    })
+
     gsap.from(descSplit.words, {
         scrollTrigger: {
             trigger: ".desc",
@@ -86,25 +90,47 @@ document.fonts.ready.then(() => {
     })
 })
 
-gsap.utils.toArray(".feature").forEach((feature) => {
-    gsap.fromTo(
-        feature,
-        { y: 80, opacity: 0 },
-        {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: feature,
-                start: "top 85%",
-                end: "top 60%",
-                scrub: 0.1,
-                toggleActions: "play none none reverse",
-            },
-        }
-    )
-})
+gsap.from(".feature", {
+    scrollTrigger: {
+        trigger: ".features-set",
+        start: "top 80%",
+        toggleActions: "play none none reverse"
+    },
+    y: 100,
+    opacity: 0,
+    duration: 0.8,
+    stagger: 0.2,
+    ease: "back.out(1.2)"
+});
+
+gsap.utils.toArray(".heading").forEach((heading) => {
+    gsap.from(heading, {
+        scrollTrigger: {
+            trigger: heading,
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+        },
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out"
+    });
+});
+
+gsap.utils.toArray(".tag").forEach((tag) => {
+    gsap.from(tag, {
+        scrollTrigger: {
+            trigger: tag,
+            start: "top 90%",
+            toggleActions: "play none none reverse"
+        },
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        delay: 0.1,
+        ease: "power3.out"
+    });
+});
 
 
 function renderWardrobeOptions(gender) {
@@ -204,38 +230,9 @@ canvas.width = 300
 canvas.height = 430
 
 function drawAvatar() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    //INITIAL MODEL
-
-    // let bodyHeight = height.value * 1.2
-    // let shoulderWidth = shoulders.value * 2
-    // let waistWidth = waist.value * 1.8
-    // let chestWidth = chest.value * 2
-
-    // bodyHeight *= 0.5
-    // shoulderWidth *= 0.8
-    // waistWidth *= 0.8
-    // chestWidth *= 0.8
-
-    // const centerX = canvas.width / 2
-
-    // ctx.fillStyle = "#2a1633"
-
-    // ctx.beginPath()
-    // ctx.arc(centerX, 40, 20, 0, Math.PI * 2)
-    // ctx.fill()
-
-    // ctx.fillRect(centerX - chestWidth / 2, 60, chestWidth, bodyHeight / 3)
-
-    // ctx.fillRect(centerX - waistWidth / 2, 60 + bodyHeight / 3, waistWidth, bodyHeight / 3)
-
-    // ctx.fillRect(centerX - 20, 60 + (bodyHeight / 3) * 2, 15, bodyHeight / 3)
-    // ctx.fillRect(centerX + 5, 60 + (bodyHeight / 3) * 2, 15, bodyHeight / 3)
-
-    // ctx.fillRect(centerX - shoulderWidth / 2, 55, shoulderWidth, 10)
-
-    const maxCanvasHeight = canvas.height - 80;
+    const maxCanvasHeight = canvas.height - 40;
     const baseHeight = 260;
     const heightRatio = height.value / 170;
     let bodyHeight = baseHeight * heightRatio;
@@ -244,69 +241,99 @@ function drawAvatar() {
         bodyHeight = maxCanvasHeight;
     }
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    const centerX = canvas.width / 2;
+    const topY = 40;
 
-    const centerX = canvas.width / 2
-    const topY = 40
+    // Width calculations based on circumferences / breadth
+    // Using an anatomical scale factor for visual proportionality
+    const widthScale = 2.2;
+    const shoulderW = shoulders.value * widthScale;
+    const chestW = (chest.value / Math.PI) * widthScale * 1.3;
+    const waistW = (waist.value / Math.PI) * widthScale * 1.3;
+    const hipW = (hips.value / Math.PI) * widthScale * 1.4;
 
-    const heightScale = height.value / 170
-    const baseBodyHeight = 260 * heightScale
+    // Y coordinates
+    const headRadius = 20 + (weight.value / 150) * 5; 
+    const neckBaseY = topY + headRadius + 2;
+    const shoulderY = neckBaseY + 15;
+    const torsoBottom = shoulderY + bodyHeight * 0.45;
+    const chestY = shoulderY + (torsoBottom - shoulderY) * 0.25;
+    const waistY = shoulderY + (torsoBottom - shoulderY) * 0.65;
+    const hipY = torsoBottom;
+    const legBottom = hipY + bodyHeight * 0.55;
 
-    const chestWidth = chest.value * 1.2
-    const waistWidth = waist.value * 1.1
-    const shoulderWidth = shoulders.value * 1.4
+    // Helper to draw elegant organic curves
+    function smoothCurve(context, startX, startY, endX, endY) {
+        const cp1Y = startY + (endY - startY) / 3;
+        const cp2Y = endY - (endY - startY) / 3;
+        context.bezierCurveTo(startX, cp1Y, endX, cp2Y, endX, endY);
+    }
 
-    ctx.beginPath()
-    ctx.arc(centerX, topY, 25, 0, Math.PI * 2)
-    ctx.fillStyle = selectedSkinTone
-    ctx.fill()
-    ctx.strokeStyle = "#2a1633";
-    ctx.lineWidth = 2;
+    // --- Draw Arms ---
+    const armWidth = 12 + (weight.value / 150) * 12;
+    ctx.lineWidth = armWidth;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.strokeStyle = selectedSkinTone;
+    
+    const armLength = bodyHeight * 0.42;
+    
+    ctx.beginPath();
+    ctx.moveTo(centerX + shoulderW / 2 - 5, shoulderY + 5);
+    ctx.lineTo(centerX + shoulderW / 2 + 25, shoulderY + armLength);
     ctx.stroke();
 
-    const neckY = topY + 25
-    const torsoTop = neckY + 10
-    const torsoBottom = torsoTop + baseBodyHeight * 0.45
-    const hipY = torsoBottom
-    const legBottom = hipY + baseBodyHeight * 0.55
-
-    ctx.lineWidth = 10
-    ctx.beginPath()
-    ctx.moveTo(centerX - shoulderWidth / 2, torsoTop)
-    ctx.lineTo(centerX + shoulderWidth / 2, torsoTop)
-    ctx.stroke()
-
-    ctx.beginPath()
-    ctx.moveTo(centerX - shoulderWidth / 2, torsoTop)
-    ctx.lineTo(centerX + shoulderWidth / 2, torsoTop)
-    ctx.lineTo(centerX + waistWidth / 2, torsoBottom)
-    ctx.lineTo(centerX - waistWidth / 2, torsoBottom)
-    ctx.closePath()
-    ctx.strokeStyle = "#2a1633";
-    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(centerX - shoulderW / 2 + 5, shoulderY + 5);
+    ctx.lineTo(centerX - shoulderW / 2 - 25, shoulderY + armLength);
     ctx.stroke();
-    ctx.fill()
 
-    ctx.lineWidth = 8
-    ctx.beginPath()
-    ctx.moveTo(centerX - shoulderWidth / 2, torsoTop)
-    ctx.lineTo(centerX - shoulderWidth / 2 - 40, torsoTop + 80)
-    ctx.stroke()
+    // --- Draw Legs ---
+    const legWidth = 16 + (weight.value / 150) * 16;
+    ctx.lineWidth = legWidth;
+    
+    ctx.beginPath();
+    ctx.moveTo(centerX + hipW * 0.25, hipY - 10);
+    ctx.lineTo(centerX + hipW * 0.25, legBottom);
+    ctx.stroke();
 
-    ctx.beginPath()
-    ctx.moveTo(centerX + shoulderWidth / 2, torsoTop)
-    ctx.lineTo(centerX + shoulderWidth / 2 + 40, torsoTop + 80)
-    ctx.stroke()
+    ctx.beginPath();
+    ctx.moveTo(centerX - hipW * 0.25, hipY - 10);
+    ctx.lineTo(centerX - hipW * 0.25, legBottom);
+    ctx.stroke();
 
-    ctx.beginPath()
-    ctx.moveTo(centerX - 20, hipY)
-    ctx.lineTo(centerX - 20, legBottom)
-    ctx.stroke()
+    // --- Draw Neck ---
+    ctx.fillStyle = selectedSkinTone;
+    ctx.fillRect(centerX - 10, neckBaseY - 15, 20, 20);
 
-    ctx.beginPath()
-    ctx.moveTo(centerX + 20, hipY)
-    ctx.lineTo(centerX + 20, legBottom)
-    ctx.stroke()
+    // --- Draw Torso Silhouette ---
+    ctx.beginPath();
+    ctx.moveTo(centerX, neckBaseY);
+    ctx.lineTo(centerX + 12, neckBaseY);
+    // Right Shoulder
+    ctx.quadraticCurveTo(centerX + shoulderW / 2, neckBaseY, centerX + shoulderW / 2, shoulderY);
+    // Right Side
+    smoothCurve(ctx, centerX + shoulderW / 2, shoulderY, centerX + chestW / 2, chestY);
+    smoothCurve(ctx, centerX + chestW / 2, chestY, centerX + waistW / 2, waistY);
+    smoothCurve(ctx, centerX + waistW / 2, waistY, centerX + hipW / 2, hipY);
+    
+    // Bottom curve
+    ctx.quadraticCurveTo(centerX, hipY + 15, centerX - hipW / 2, hipY);
+    
+    // Left Side (moving upwards)
+    smoothCurve(ctx, centerX - hipW / 2, hipY, centerX - waistW / 2, waistY);
+    smoothCurve(ctx, centerX - waistW / 2, waistY, centerX - chestW / 2, chestY);
+    smoothCurve(ctx, centerX - chestW / 2, chestY, centerX - shoulderW / 2, shoulderY);
+    
+    // Left Shoulder
+    ctx.quadraticCurveTo(centerX - shoulderW / 2, neckBaseY, centerX - 12, neckBaseY);
+    ctx.closePath();
+    ctx.fill();
+
+    // --- Draw Head ---
+    ctx.beginPath();
+    ctx.arc(centerX, topY, headRadius, 0, Math.PI * 2);
+    ctx.fill();
 }
 
 drawAvatar()

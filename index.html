@@ -27,19 +27,22 @@
             </div> -->
         </nav>
         <div class="hero">
-            <h1 class="brand-name">CheckTheFit</h1>
+            <div class="title-and-tag">
+                <h1 class="brand-name">CheckTheFit</h1>
+                <h3 class="tag-at-home">Fit.Style.Serve</h3>
+            </div>
             <div class="cta-buttons">
                 <button onclick="location.href='#avatar'"><span class="btn-text">Analyse my fit</span><span
                         class="arrow">↓</span></button>
                 <button onclick="location.href='#features'"><span class="btn-text">See how it works</span><span
                         class="arrow">↓</span></button>
             </div>
-            </div>
+        </div>
         </div>
     </section>
 
     <section class="banner">
-        <h1 class="tag-at-home">Find your <span>perfect</span> fit.</h1>
+        <h1 class="tag-at-desc">Find your perfect fit.</h1>
         <p class="desc">Enter your measurements, browse your wardrobe, and let CheckTheFit recommend the ideal outfit
             for any
             occasion.</p>
@@ -78,12 +81,7 @@
         <h1 class="heading">Create your avatar</h1>
         <p class="tag">Help us understand your body to recommend the best fit.</p>
         <div class="operation">
-            <div class="preview">
-                <canvas id="avatarCanvas">
 
-                </canvas>
-                <h3 id="bodyTypeText">Body type: </h3>
-            </div>
             <div class="measurements-tab">
                 <div class="skin-and-gender">
                     <div class="gender">
@@ -138,6 +136,12 @@
                         <input type="range" name="shoulders" id="shoulders" min="30" max="70">
                     </div>
                 </div>
+            </div>
+            <div class="preview">
+                <canvas id="avatarCanvas">
+
+                </canvas>
+                <h3 id="bodyTypeText">Body type: </h3>
             </div>
         </div>
     </section>
