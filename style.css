@@ -3,6 +3,11 @@
     src: url(/Moonscape-Font/moonscape-demo.otf) format("opentype");
 }
 
+@font-face {
+    font-family: "Kugile";
+    src: url(Kugile-Font/Kugile_Demo.ttf) format("truetype");
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -10,11 +15,11 @@
 }
 
 :root {
-    --bg-color: #fff;
-    /* E0E2DB *eaeffe cfc2fa b3a9f8 */
+    --bg-color: #e4e4e4;
+    /* E0E2DB *eaeffe cfc2fa b3a9f8 FDF5F7 cfc5f0 */
     --text-color: #000000;
-    --hilyt-color: #bb5982;
-    /* d5c6e0 967aa1 b89ccb BC8DA0*/
+    --hilyt-color: #b7a7e6;
+    /* d5c6e0 967aa1 b89ccb BC8DA0 bb5982 b7a7e6*/
     --acc-color: #000000;
     /* 9b5de5 */
 }
@@ -47,95 +52,79 @@ body {
     /* background-color: #240046; */
 }
 
-.homepage .navbar {
+.homepage nav {
     width: calc(100% - 180px);
-    /* background-color: brown; */
+    /* background-color: rgba(252, 252, 252, 0.11); */
     display: flex;
     height: 80px;
-    position: absolute;
-    top: 30px;
-    border-radius: 20px;
-    justify-content: center;
+    /* position: absolute; */
+    top: 0px;
+    left: 0;
+    border-radius: 30px;
+    justify-content: flex-start;
     align-items: center;
     z-index: 100;
     /* border: 1px solid var(--text-color); */
     /* padding: 15px; */
 }
 
-.homepage .navbar h1 {
+.homepage .navbar ul {
     width: 65%;
-    height: 78px;
-    border-radius: 20px;
-    /* background-color: var(--bg-color); */
+    height: 80px;
+    border-radius: 30px;
     background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: "Outfit", sans-serif;
-    font-size: clamp(2rem, 10vw, 3.5rem);
-    letter-spacing: -4px;
+    /* background-color: greenyellow; */
+    padding: 0 20px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    border: 2px solid var(--text-color);
+    justify-content: space-between;
+    /* gap: clamp(10px, 2vw, 20px); */
+    backdrop-filter: blur(10px);
 }
 
-.homepage .navbar h1 a {
+.homepage .navbar ul li {
+    list-style: none;
+}
+
+.homepage .navbar ul li a {
     text-decoration: none;
     color: var(--text-color);
-}
-
-.homepage .navbar .buttons {
-    /* background-color: var(--text-color); */
-    width: 30%;
-    height: 80px;
-    border-radius: 20px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.homepage .navbar .buttons button {
-    width: 100px;
-    height: 50px;
-    border-radius: 20px;
-    border: none;
+    font-family: "Outfit", sans-serif;
+    font-size: clamp(1rem, 5vw, 1.5rem);
+    font-weight: 300;
     cursor: pointer;
-    font-size: 1.5rem;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-}
-
-.homepage .navbar .buttons button:first-child {
-    margin-right: 20px;
 }
 
 .homepage .hero {
     background-color: var(--hilyt-color);
-    background: url(imges/bg3.jpeg);
+    background: url(images/bg3.webp);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+    /* background: linear-gradient(135deg, #FDF5F7 0%, #F7EBF1 100%); */
     height: calc(100vh - 60px);
     width: 100%;
     /* padding: 50px; */
     border-radius: 30px;
-    display: flex;
+    /* display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
+    justify-content: center;
+    align-items: center; */
+    display: grid;
     position: relative;
     overflow: hidden;
 }
 
 .homepage .hero .helper {
-    width: 60%;
-    height: 90px;
-    background-color: var(--bg-color);
+    width: 56.5%;
+    height: 80px;
+    /* background-color: salmon; */
     position: absolute;
-    top: 40px;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+    top: -1px;
+    left: 0;
+    /* transform: translate(-50%, -50%); */
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
 }
 
 .homepage .hero .helper::before {
@@ -144,11 +133,11 @@ body {
     height: 40px;
     background-color: transparent;
     position: absolute;
-    top: 4px;
-    left: -40px;
-    border-top-right-radius: 20px;
+    top: 80px;
+    left: 0px;
+    border-top-left-radius: 20px;
     /* border-right: 5px solid var(--bg-color); */
-    box-shadow: 10px -10px 0 0 var(--bg-color);
+    box-shadow: -19px -24px 0 0 var(--bg-color);
     /* border-bottom-right-radius: 20px; */
 }
 
@@ -158,25 +147,96 @@ body {
     height: 40px;
     background-color: transparent;
     position: absolute;
-    top: 4px;
-    right: -40px;
+    top: 0px;
+    right: -37.5px;
     border-top-left-radius: 20px;
     /* border-right: 5px solid var(--bg-color); */
-    box-shadow: -10px -10px 0 0 var(--bg-color);
+    box-shadow: -28px -12px 0 0 var(--bg-color);
     /* border-bottom-right-radius: 20px; */
 }
 
 .homepage .hero .brand-name {
-    /* width: 50%; */
-    font-size: clamp(2rem, 15vw, 20rem);
-    font-family: "Outfit", sans-serif;
-    color: var(--bg-color);
-    letter-spacing: -15px;
+    height: fit-content;
+    font-size: clamp(2rem, 15vw, 9rem);
+    /* font-family: "Outfit", sans-serif; */
+    font-family: "Kugile", sans-serif;
+    font-weight: 300;
+
+    /* color: transparent;
+    -webkit-text-stroke: 2px;
+    -webkit-text-stroke-color: var(--text-color); */
+    letter-spacing: clamp(-5px, -0.6vw, -10px);
     text-align: center;
     /* transform: scale(1.3); */
     /* transform-origin: left; */
-    /* background-color: #fff; */
+    /* background-color: #6e4242; */
 }
+
+.hero .cta-buttons {
+    width: 100%;
+    height: fit-content;
+    /* background-color: #fff; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.hero .cta-buttons button:nth-child(2) {
+    padding: 15px 30px;
+    border-radius: 30px;
+    border: 2px solid var(--text-color);
+    background-color: transparent;
+    color: var(--text-color);
+    font-size: clamp(1rem, 5vw, 1.5rem);
+    font-family: "Outfit", sans-serif;
+    font-weight: 300;
+    cursor: pointer;
+}
+
+.hero .cta-buttons button:nth-child(1) {
+    padding: 15px 30px;
+    border-radius: 30px;
+    border: 2px solid var(--text-color);
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    font-size: clamp(1rem, 5vw, 1.5rem);
+    font-family: "Outfit", sans-serif;
+    font-weight: 300;
+    cursor: pointer;
+}
+
+.hero .cta-buttons button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero .cta-buttons button .btn-text {
+    transition: transform 0.3s ease;
+}
+
+.hero .cta-buttons button .arrow {
+    position: absolute;
+    right: 20px;
+    transform: translateY(-150%);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.hero .cta-buttons button:hover .btn-text {
+    transform: translateX(-10px);
+}
+
+.hero .cta-buttons button:hover .arrow {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+
 
 .banner {
     width: 100%;
@@ -215,7 +275,7 @@ body {
 }
 
 .heading {
-    font-size: clamp(5rem, 5vw, 7rem);
+    font-size: clamp(3rem, 5vw, 5rem);
     font-family: "Hurricane", sans-serif;
     color: var(--text-color);
 }
@@ -223,7 +283,7 @@ body {
 .tag {
     color: var(--text-color);
     font-family: "Outfit", sans-serif;
-    font-size: 1.4rem;
+    font-size: clamp(1rem, 5vw, 1.5rem);
     /* background-color: #fff; */
     width: 100%;
     letter-spacing: 2px;
@@ -275,6 +335,7 @@ body {
     overflow: hidden;
     z-index: 2;
 }
+
 .features .features-set .feature:not(:last-child)::before {
     content: "";
     position: absolute;
@@ -819,9 +880,23 @@ body {
     line-height: 1.6;
 }
 
+.coming-soon {
+    width: 100%;
+    height: 60vh;
+    padding: 30px;
+}
 
+.coming-soon h1 {
+    font-family: "Hurricane";
+    color: var(--text-color);
+    font-size: clamp(4rem, 15vw, 10rem);
+}
 
-@media (max-width: 900px) {
+.coming-soon h1 span {
+    color: var(--hilyt-color);
+}
+
+@media (max-width: 1100px) {
     .homepage {
         height: auto;
         min-height: 100vh;
@@ -830,28 +905,31 @@ body {
 
     .homepage .navbar {
         position: relative;
-        top: auto;
         width: 100%;
         height: auto;
-        margin-bottom: 20px;
+        /* margin-bottom: 20px; */
     }
 
     .homepage .hero .helper {
         display: none;
     }
 
-    .homepage .navbar h1 {
+    .homepage .navbar ul {
         width: 100%;
-        height: auto;
-        min-height: 60px;
-        padding: 10px 0;
-        font-size: clamp(2rem, 8vw, 3rem);
+        height: 60px;
+        padding: 0 15px;
+        justify-content: space-evenly;
+        border-radius: 20px;
+    }
+
+    .homepage .navbar ul li a {
+        font-size: clamp(0.9rem, 3.5vw, 1.2rem);
     }
 
     .homepage .hero {
         height: auto;
         min-height: calc(100vh - 80px);
-        padding: clamp(20px, 4vw, 36px);
+        padding: 30px;
         border-radius: 22px;
     }
 
@@ -860,10 +938,11 @@ body {
         height: auto;
         border-radius: 22px;
     }
-    
+
     .banner h1 {
         font-size: clamp(2rem, 8vw, 3rem);
     }
+
     .banner P {
         font-size: 1.4rem;
         text-align: center;
@@ -920,8 +999,32 @@ body {
 }
 
 @media (max-width: 600px) {
+    .homepage .hero .brand-name {
+        letter-spacing: -2px;
+        font-size: clamp(2rem, 12vw, 8rem);
+    }
+
+    .homepage .navbar ul {
+        padding: 0 10px;
+        gap: 5px;
+    }
+
+    .homepage .navbar ul li a {
+        font-size: clamp(0.8rem, 3.5vw, 1rem);
+    }
+
     .homepage .hero .helper {
         display: none;
+    }
+
+    .hero .cta-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .hero .cta-buttons button {
+        width: 100%;
+        max-width: 300px;
     }
 
     .banner p {

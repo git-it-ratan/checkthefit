@@ -80,8 +80,9 @@ document.fonts.ready.then(() => {
             toggleActions: "play none none reverse"
         },
         // y: -100,
+        delay: 0.2,
         opacity: 0.2,
-        stagger: 0.04,
+        stagger: 0.1,
     })
 })
 

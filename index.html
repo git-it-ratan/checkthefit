@@ -15,19 +15,26 @@
 
 <body>
     <section class="homepage" id="homepage">
-        <nav class="navbar">
-            <h1><a href="#homepage">CheckTheFit</a></h1>
-            <!-- <div class="buttons">
-                <button>Login</button>
-                <button>SignUp</button>
-            </div> -->
-        </nav>
         <div class="hero">
+            <nav class="navbar">
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#avatar">Avatar</a></li>
+                    <li><a href="#wardrobe">Wardrobe</a></li>
+                </ul>
+                <!-- <div class="buttons">
+                    <button>Login</button>
+                    <button>SignUp</button>
+                </div> -->
+            </nav>
             <h1 class="brand-name">CheckTheFit</h1>
-            <!-- <p>Enter your measurements, browse your wardrobe, and let us recommend the ideal outfit for any occasion.
-            </p> -->
+            <div class="cta-buttons">
+                <button onclick="location.href='#avatar'"><span class="btn-text">Analyse my fit</span><span
+                        class="arrow">↓</span></button>
+                <button onclick="location.href='#features'"><span class="btn-text">See how it works</span><span
+                        class="arrow">↓</span></button>
+            </div>
             <div class="helper">
-                <!-- helper!! -->
 
             </div>
         </div>
@@ -35,12 +42,13 @@
 
     <section class="banner">
         <h1 class="tag-at-home">Find your <span>perfect</span> fit.</h1>
-        <p class="desc">Enter your measurements, browse your wardrobe, and let CheckTheFit recommend the ideal outfit for any
+        <p class="desc">Enter your measurements, browse your wardrobe, and let CheckTheFit recommend the ideal outfit
+            for any
             occasion.</p>
     </section>
 
 
-    <section class="features">
+    <section class="features" id="features">
         <h1 class="heading">Features</h1>
         <div class="features-set">
             <div class="feature">
@@ -68,7 +76,7 @@
 
 
 
-    <section class="avatar">
+    <section class="avatar" id="avatar">
         <h1 class="heading">Create your avatar</h1>
         <p class="tag">Help us understand your body to recommend the best fit.</p>
         <div class="operation">
@@ -136,7 +144,7 @@
         </div>
     </section>
 
-    <section class="wardrobe">
+    <section class="wardrobe" id="wardrobe">
         <h1 class="heading">Wardrobe</h1>
         <p class="tag">Select default clothes or upload your own(future feature).</p>
         <div class="defaults">
@@ -193,11 +201,14 @@
             </div>
         </div>
     </section>
+    <section class="coming-soon">
+        <h1>Under <br> Development <span>...</span> </h1>
+    </section>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollSmoother.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
-    
+
     <script src="script.js"></script>
 </body>
 
