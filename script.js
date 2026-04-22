@@ -161,24 +161,21 @@ function updateWardrobeHeading() {
 
 height.addEventListener("input", () => {
     document.getElementById("height-value").innerText = `${height.value} cm`
+    document.getElementById("height-in").innerText = `(${Math.round(height.value / 2.54)} inches)`
     userData.height = height.value
-    drawAvatar()
-    detectBodyType()
-})
-weight.addEventListener("input", () => {
-    document.getElementById("weight-value").innerText = `${weight.value} kg`
-    userData.weight = weight.value
     drawAvatar()
     detectBodyType()
 })
 chest.addEventListener("input", () => {
     document.getElementById("chest-value").innerText = `${chest.value} cm`
+    document.getElementById("chest-in").innerText = `(${Math.round(chest.value / 2.54)} inches)`
     userData.chest = chest.value
     drawAvatar()
     detectBodyType()
 })
 waist.addEventListener("input", () => {
     document.getElementById("waist-value").innerText = `${waist.value} cm`
+    document.getElementById("waist-in").innerText = `(${Math.round(waist.value / 2.54)} inches)`
     userData.waist = waist.value
     drawAvatar()
     detectBodyType()
@@ -186,16 +183,47 @@ waist.addEventListener("input", () => {
 })
 hips.addEventListener("input", () => {
     document.getElementById("hips-value").innerText = `${hips.value} cm`
+    document.getElementById("hips-in").innerText = `(${Math.round(hips.value / 2.54)} inches)`
     userData.hips = hips.value
     drawAvatar()
     detectBodyType()
 })
 shoulders.addEventListener("input", () => {
     document.getElementById("shoulders-value").innerText = `${shoulders.value} cm`
+    document.getElementById("shoulders-in").innerText = `(${Math.round(shoulders.value / 2.54)} inches)`
     userData.shoulders = shoulders.value
     drawAvatar()
     detectBodyType()
 })
+
+const sizeData = {
+    'S': { waist: 26, chest: 32, hips: 34, shoulders: 15 },
+    'M': { waist: 28, chest: 34, hips: 36, shoulders: 16 },
+    'L': { waist: 30, chest: 36, hips: 38, shoulders: 17 },
+    'XL': { waist: 32, chest: 38, hips: 40, shoulders: 18 },
+    'XXL': { waist: 34, chest: 40, hips: 42, shoulders: 19 },
+    'XXXL': { waist: 36, chest: 42, hips: 44, shoulders: 20 },
+};
+
+document.querySelectorAll('.default-sizes button').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.default-sizes button').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        
+        const size = btn.dataset.size;
+        const data = sizeData[size];
+        
+        chest.value = Math.round(data.chest * 2.54);
+        waist.value = Math.round(data.waist * 2.54);
+        hips.value = Math.round(data.hips * 2.54);
+        shoulders.value = Math.round(data.shoulders * 2.54);
+        
+        chest.dispatchEvent(new Event('input'));
+        waist.dispatchEvent(new Event('input'));
+        hips.dispatchEvent(new Event('input'));
+        shoulders.dispatchEvent(new Event('input'));
+    });
+});
 
 let selectedSkinTone = "#f5cba7"
 
@@ -253,7 +281,7 @@ function drawAvatar() {
     const hipW = (hips.value / Math.PI) * widthScale * 1.4;
 
     // Y coordinates
-    const headRadius = 20 + (weight.value / 150) * 5; 
+    const headRadius = 22;
     const neckBaseY = topY + headRadius + 2;
     const shoulderY = neckBaseY + 15;
     const torsoBottom = shoulderY + bodyHeight * 0.45;
@@ -270,14 +298,14 @@ function drawAvatar() {
     }
 
     // --- Draw Arms ---
-    const armWidth = 12 + (weight.value / 150) * 12;
+    const armWidth = 12 + (chest.value / 150) * 12;
     ctx.lineWidth = armWidth;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
     ctx.strokeStyle = selectedSkinTone;
-    
+
     const armLength = bodyHeight * 0.42;
-    
+
     ctx.beginPath();
     ctx.moveTo(centerX + shoulderW / 2 - 5, shoulderY + 5);
     ctx.lineTo(centerX + shoulderW / 2 + 25, shoulderY + armLength);
@@ -289,9 +317,9 @@ function drawAvatar() {
     ctx.stroke();
 
     // --- Draw Legs ---
-    const legWidth = 16 + (weight.value / 150) * 16;
+    const legWidth = 16 + (hips.value / 150) * 16;
     ctx.lineWidth = legWidth;
-    
+
     ctx.beginPath();
     ctx.moveTo(centerX + hipW * 0.25, hipY - 10);
     ctx.lineTo(centerX + hipW * 0.25, legBottom);
@@ -316,15 +344,15 @@ function drawAvatar() {
     smoothCurve(ctx, centerX + shoulderW / 2, shoulderY, centerX + chestW / 2, chestY);
     smoothCurve(ctx, centerX + chestW / 2, chestY, centerX + waistW / 2, waistY);
     smoothCurve(ctx, centerX + waistW / 2, waistY, centerX + hipW / 2, hipY);
-    
+
     // Bottom curve
     ctx.quadraticCurveTo(centerX, hipY + 15, centerX - hipW / 2, hipY);
-    
+
     // Left Side (moving upwards)
     smoothCurve(ctx, centerX - hipW / 2, hipY, centerX - waistW / 2, waistY);
     smoothCurve(ctx, centerX - waistW / 2, waistY, centerX - chestW / 2, chestY);
     smoothCurve(ctx, centerX - chestW / 2, chestY, centerX - shoulderW / 2, shoulderY);
-    
+
     // Left Shoulder
     ctx.quadraticCurveTo(centerX - shoulderW / 2, neckBaseY, centerX - 12, neckBaseY);
     ctx.closePath();
