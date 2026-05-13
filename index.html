@@ -83,36 +83,24 @@
         <div class="operation">
 
             <div class="measurements-tab">
-                <div class="skin-and-gender">
-                    <div class="gender">
-                        <h3>Gender: </h3>
-                        <div class="genders">
-                            <button class="gender-btn" data-gender="male">Male</button>
-                            <button class="gender-btn" data-gender="female">Female</button>
-                        </div>
-                    </div>
-                    <div class="skin-tones">
-                        <h3>Skin Tone: </h3>
-                        <div class="tones">
-                            <button class="tone" data-tone="#fdebd0" style="background-color: #fdebd0;"></button>
-                            <button class="tone" data-tone="#f5cba7" style="background-color: #f5cba7;"></button>
-                            <button class="tone" data-tone="#d4a574" style="background-color: #d4a574;"></button>
-                            <button class="tone" data-tone="#c4a882" style="background-color: #c4a882;"></button>
-                            <button class="tone" data-tone="#a0785a" style="background-color: #a0785a;"></button>
-                            <button class="tone" data-tone="#6f4e37" style="background-color: #6f4e37;"></button>
-                            <button class="tone" data-tone="#3e2723" style="background-color: #3e2723;"></button>
-                        </div>
+                <div class="skin-tones">
+                    <h3>Skin Tone: </h3>
+                    <div class="tones">
+                        <button class="tone" data-tone="#fdebd0" style="background-color: #fdebd0;"></button>
+                        <button class="tone" data-tone="#f5cba7" style="background-color: #f5cba7;"></button>
+                        <button class="tone" data-tone="#d4a574" style="background-color: #d4a574;"></button>
+                        <button class="tone" data-tone="#c4a882" style="background-color: #c4a882;"></button>
+                        <button class="tone" data-tone="#a0785a" style="background-color: #a0785a;"></button>
+                        <button class="tone" data-tone="#6f4e37" style="background-color: #6f4e37;"></button>
+                        <button class="tone" data-tone="#3e2723" style="background-color: #3e2723;"></button>
                     </div>
                 </div>
                 <div class="measurements">
                     <div class="measurement">
-                        <div class="default-sizes">
-                            <button id="s-size" data-size="S">S</button>
-                            <button id="m-size" data-size="M">M</button>
-                            <button id="l-size" data-size="L">L</button>
-                            <button id="xl-size" data-size="XL">XL</button>
-                            <button id="xxl-size" data-size="XXL">XXL</button>
-                            <button id="xxxl-size" data-size="XXXL">XXXL</button>
+                        <h3>Gender: </h3>
+                        <div class="genders">
+                            <button class="gender-btn" data-gender="male">Male</button>
+                            <button class="gender-btn" data-gender="female">Female</button>
                         </div>
                     </div>
                     <div class="measurement">
@@ -169,11 +157,12 @@
                         <!-- -->
                     </div>
                 </div>
-                <div class="color-options" id="topColorOptions">
-                    <button class="t-c-opt" data-topcolor="Black" style="background-color: black;"></button>
-                    <button class="t-c-opt" data-topcolor="White" style="background-color: white;"></button>
-                    <button class="t-c-opt" data-topcolor="Blue" style="background-color: rgb(121, 181, 255);"></button>
-                    <button class="t-c-opt" data-topcolor="Red" style="background-color: rgb(248, 78, 78);"></button>
+                <div class="color-options">
+                    <label class="custom-color-btn" for="topColorPicker">
+                        <span class="color-preview" id="topColorPreview" style="background-color: #000000;"></span>
+                        <span id="topColorName">Pick Top Color</span>
+                    </label>
+                    <input type="color" id="topColorPicker" value="#000000" class="hidden-color-input">
                 </div>
             </div>
             <div class="bottom setup">
@@ -183,11 +172,12 @@
                         <!--  -->
                     </div>
                 </div>
-                <div class="color-options" id="bottomColorOptions">
-                    <button class="b-c-opt" data-bottomcolor="Black" style="background-color: black;"></button>
-                    <button class="b-c-opt" data-bottomcolor="Blue" style="background-color: rgb(36, 36, 84);"></button>
-                    <button class="b-c-opt" data-bottomcolor="Grey" style="background-color: gray;"></button>
-                    <button class="b-c-opt" data-bottomcolor="Beige" style="background-color: beige;"></button>
+                <div class="color-options">
+                    <label class="custom-color-btn" for="bottomColorPicker">
+                        <span class="color-preview" id="bottomColorPreview" style="background-color: #000000;"></span>
+                        <span id="bottomColorName">Pick Bottom Color</span>
+                    </label>
+                    <input type="color" id="bottomColorPicker" value="#000000" class="hidden-color-input">
                 </div>
             </div>
             <div class="occassion setup">
@@ -215,7 +205,7 @@
         </div>
     </section>
     <section class="coming-soon">
-        <h1>Under <br> Development <span>...</span> </h1>
+        <h1>Under<br>Development<span>...</span> </h1>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>

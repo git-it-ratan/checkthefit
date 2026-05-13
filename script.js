@@ -6,8 +6,12 @@ let hips = document.getElementById("hips")
 let shoulders = document.getElementById("shoulders")
 let tones = document.querySelectorAll('.tone')
 let genderBtns = document.querySelectorAll('.gender-btn')
-let topFitColorBtns = document.querySelectorAll('.t-c-opt')
-let bottomFitColorBtns = document.querySelectorAll('.b-c-opt')
+let topColorPicker = document.getElementById('topColorPicker')
+let topColorPreview = document.getElementById('topColorPreview')
+let topColorName = document.getElementById('topColorName')
+let bottomColorPicker = document.getElementById('bottomColorPicker')
+let bottomColorPreview = document.getElementById('bottomColorPreview')
+let bottomColorName = document.getElementById('bottomColorName')
 let occasionOptions = document.querySelectorAll('#occasionOptions li')
 let occasionLabel = document.getElementById('occasionLabel')
 
@@ -86,22 +90,22 @@ document.fonts.ready.then(() => {
         // y: -100,
         delay: 0.2,
         opacity: 0.2,
-        stagger: 0.1,
+        stagger: 0.04
     })
 })
 
-gsap.from(".feature", {
-    scrollTrigger: {
-        trigger: ".features-set",
-        start: "top 80%",
-        toggleActions: "play none none reverse"
-    },
-    y: 100,
-    opacity: 0,
-    duration: 0.8,
-    stagger: 0.2,
-    ease: "back.out(1.2)"
-});
+// gsap.from(".feature", {
+//     scrollTrigger: {
+//         trigger: ".features-set",
+//         start: "top 80%",
+//         toggleActions: "play none none reverse"
+//     },
+//     y: 100,
+//     opacity: 0,
+//     duration: 0.8,
+//     stagger: 0.2,
+//     ease: "back.out(1.2)"
+// });
 
 gsap.utils.toArray(".heading").forEach((heading) => {
     gsap.from(heading, {
@@ -209,15 +213,15 @@ document.querySelectorAll('.default-sizes button').forEach(btn => {
     btn.addEventListener('click', () => {
         document.querySelectorAll('.default-sizes button').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
-        
+
         const size = btn.dataset.size;
         const data = sizeData[size];
-        
+
         chest.value = Math.round(data.chest * 2.54);
         waist.value = Math.round(data.waist * 2.54);
         hips.value = Math.round(data.hips * 2.54);
         shoulders.value = Math.round(data.shoulders * 2.54);
-        
+
         chest.dispatchEvent(new Event('input'));
         waist.dispatchEvent(new Event('input'));
         hips.dispatchEvent(new Event('input'));
@@ -418,14 +422,62 @@ topOptionsEl.addEventListener("click", (e) => {
     userData.outfits[0] = btn.dataset.type
 })
 
-topFitColorBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-        topFitColorBtns.forEach(b => b.classList.remove("selected"))
-        btn.classList.add("selected")
+// Color matching logic
+const colorFamilies = [
+    { name: "black", rgb: [0, 0, 0] },
+    { name: "white", rgb: [255, 255, 255] },
+    { name: "grey", rgb: [128, 128, 128] },
+    { name: "red", rgb: [255, 0, 0] },
+    { name: "blue", rgb: [0, 0, 255] },
+    { name: "green", rgb: [0, 128, 0] },
+    { name: "yellow", rgb: [255, 255, 0] },
+    { name: "beige", rgb: [245, 245, 220] },
+    { name: "brown", rgb: [165, 42, 42] },
+    { name: "pink", rgb: [255, 192, 203] },
+    { name: "purple", rgb: [128, 0, 128] },
+    { name: "orange", rgb: [255, 165, 0] }
+];
 
-        userData.outfits[1] = btn.dataset.topcolor
-        // console.log(userData)
-    })
+function hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? [
+        parseInt(result[1], 16),
+        parseInt(result[2], 16),
+        parseInt(result[3], 16)
+    ] : null;
+}
+
+function getColorFamily(hex) {
+    const rgb = hexToRgb(hex);
+    if (!rgb) return "unknown";
+
+    let closestFamily = "black";
+    let minDistance = Infinity;
+
+    for (const family of colorFamilies) {
+        const rDiff = rgb[0] - family.rgb[0];
+        const gDiff = rgb[1] - family.rgb[1];
+        const bDiff = rgb[2] - family.rgb[2];
+        const distance = Math.sqrt(
+            (rDiff * rDiff * 0.3) + 
+            (gDiff * gDiff * 0.59) + 
+            (bDiff * bDiff * 0.11)
+        );
+
+        if (distance < minDistance) {
+            minDistance = distance;
+            closestFamily = family.name;
+        }
+    }
+    return closestFamily;
+}
+
+topColorPicker.addEventListener("input", (e) => {
+    const hex = e.target.value;
+    topColorPreview.style.backgroundColor = hex;
+    const family = getColorFamily(hex);
+    topColorName.innerText = family.charAt(0).toUpperCase() + family.slice(1);
+    userData.outfits[1] = hex;
 })
 
 bottomOptionsEl.addEventListener("click", (e) => {
@@ -436,14 +488,12 @@ bottomOptionsEl.addEventListener("click", (e) => {
     userData.outfits[2] = btn.dataset.type
 })
 
-bottomFitColorBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-        bottomFitColorBtns.forEach(b => b.classList.remove("selected"))
-        btn.classList.add("selected")
-
-        userData.outfits[3] = btn.dataset.bottomcolor
-        // console.log(userData)
-    })
+bottomColorPicker.addEventListener("input", (e) => {
+    const hex = e.target.value;
+    bottomColorPreview.style.backgroundColor = hex;
+    const family = getColorFamily(hex);
+    bottomColorName.innerText = family.charAt(0).toUpperCase() + family.slice(1);
+    userData.outfits[3] = hex;
 })
 
 occasionOptions.forEach(option => {
@@ -468,19 +518,22 @@ function normalizeToken(value) {
 
 function analyzeOutfit() {
     const topType = normalizeToken(userData.outfits[0])
-    const topColor = normalizeToken(userData.outfits[1])
+    
+    if (!userData.outfits[1]) userData.outfits[1] = "#000000";
+    const topColor = getColorFamily(userData.outfits[1]);
+    
     const bottomType = normalizeToken(userData.outfits[2])
-    const bottomColor = normalizeToken(userData.outfits[3])
+    
+    if (!userData.outfits[3]) userData.outfits[3] = "#000000";
+    const bottomColor = getColorFamily(userData.outfits[3]);
+    
     const occasion = normalizeToken(userData.occasion)
     const gender = normalizeToken(userData.gender)
 
     const missing = []
     if (!topType) missing.push("top type")
-    if (!topColor) missing.push("top color")
     if (!bottomType) missing.push("bottom type")
-    if (!bottomColor) missing.push("bottom color")
     if (!occasion) missing.push("occasion")
-    if (!gender) missing.push("gender")
 
     if (missing.length) {
         return {
@@ -509,15 +562,17 @@ function analyzeOutfit() {
         female: new Set(["jeans", "trousers", "skirt", "leggings"])
     }
 
-    const topAllowed = genderTops[gender]
-    const bottomAllowed = genderBottoms[gender]
-    if (!topAllowed?.has(topType)) {
-        score -= 25
-        reasons.push(`This top doesn't match the selected gender wardrobe.`)
-    }
-    if (!bottomAllowed?.has(bottomType)) {
-        score -= 25
-        reasons.push(`This bottom doesn't match the selected gender wardrobe.`)
+    if (gender) {
+        const topAllowed = genderTops[gender]
+        const bottomAllowed = genderBottoms[gender]
+        if (!topAllowed?.has(topType)) {
+            score -= 25
+            reasons.push(`This top doesn't match the selected gender wardrobe.`)
+        }
+        if (!bottomAllowed?.has(bottomType)) {
+            score -= 25
+            reasons.push(`This bottom doesn't match the selected gender wardrobe.`)
+        }
     }
 
     if (isNeutralTop || isNeutralBottom) {
@@ -565,14 +620,22 @@ function analyzeOutfit() {
         female: new Set(["jeans", "skirt", "trousers", "leggings"])
     }
 
-    const formalTops = formalTopByGender[gender] ?? new Set()
-    const formalBottoms = formalBottomByGender[gender] ?? new Set()
-    const casualTops = casualTopByGender[gender] ?? new Set()
-    const casualBottoms = casualBottomByGender[gender] ?? new Set()
-    const partyTops = partyTopByGender[gender] ?? new Set()
-    const partyBottoms = partyBottomByGender[gender] ?? new Set()
-    const dateTops = dateTopByGender[gender] ?? new Set()
-    const dateBottoms = dateBottomByGender[gender] ?? new Set()
+    const getSet = (map) => {
+        if (gender && map[gender]) return map[gender];
+        const combined = new Set();
+        if (map.male) map.male.forEach(i => combined.add(i));
+        if (map.female) map.female.forEach(i => combined.add(i));
+        return combined;
+    };
+
+    const formalTops = getSet(formalTopByGender)
+    const formalBottoms = getSet(formalBottomByGender)
+    const casualTops = getSet(casualTopByGender)
+    const casualBottoms = getSet(casualBottomByGender)
+    const partyTops = getSet(partyTopByGender)
+    const partyBottoms = getSet(partyBottomByGender)
+    const dateTops = getSet(dateTopByGender)
+    const dateBottoms = getSet(dateBottomByGender)
 
     if (occasion === "formal") {
         if (formalTops.has(topType)) score += 10
@@ -659,18 +722,40 @@ function analyzeOutfit() {
 
 function updateFit() {
     const analysis = analyzeOutfit()
-    const reasonsHtml = analysis.reasons.map(r => `<li>${r}</li>`).join("")
+    const reasonsHtml = analysis.reasons.map(r => `<li><span class="reason-dot"></span>${r}</li>`).join("")
 
     wardrobe.innerHTML = `
-    <div>
-        <ul class="items">
-            <li>${userData.outfits[1]} color ${userData.outfits[0]}.</li>
-            <li>${userData.outfits[3]} color ${userData.outfits[2]}.</li>
-            <li>Occasion: ${userData.occasion}</li>
-            <li>Body type: ${analysis.bodyType}</li>
-        </ul>
+    <div class="outfit-card">
+        <div class="outfit-details">
+            <div class="detail-item">
+                <span class="detail-label">Top</span>
+                <span class="detail-value">
+                    <span class="color-swatch" style="background-color: ${userData.outfits[1]};"></span>
+                    <span style="text-transform: capitalize;">${userData.outfits[0]}</span>
+                </span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Bottom</span>
+                <span class="detail-value">
+                    <span class="color-swatch" style="background-color: ${userData.outfits[3]};"></span>
+                    <span style="text-transform: capitalize;">${userData.outfits[2]}</span>
+                </span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Occasion</span>
+                <span class="detail-value" style="text-transform: capitalize;">${userData.occasion}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Body Type</span>
+                <span class="detail-value">${analysis.bodyType}</span>
+            </div>
+        </div>
+        
         <div class="outfit-score">
-            <div class="score-badge">${analysis.score}/100 · ${analysis.label}</div>
+            <div class="score-header">
+                <div class="score-badge">${analysis.score}/100</div>
+                <div class="score-label">${analysis.label}</div>
+            </div>
             <ul class="score-reasons">
                 ${reasonsHtml}
             </ul>
