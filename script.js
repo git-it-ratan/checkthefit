@@ -589,6 +589,8 @@ async function analyzeUploadedOutfit() {
     formData.append("topImage", topFile);
     formData.append("bottomImage", bottomFile);
     formData.append("occasion", occasion);
+    document.getElementById('analyzeUploadBtn').textContent = 'Analysing...'
+    document.getElementById('analyzeUploadBtn').disabled = true
 
     try {
         const response = await fetch("https://checkthefit-backend.onrender.com/analyse-outfit", {
@@ -627,6 +629,8 @@ async function analyzeUploadedOutfit() {
         console.error(err);
         alert("Something went wrong while analyzing the uploaded outfit.");
     }
+    document.getElementById('analyzeUploadBtn').textContent = 'Analyze the fit'
+    document.getElementById('analyzeUploadBtn').disabled = false
 }
 
 function analyzeOutfit() {
