@@ -459,8 +459,8 @@ function getColorFamily(hex) {
         const gDiff = rgb[1] - family.rgb[1];
         const bDiff = rgb[2] - family.rgb[2];
         const distance = Math.sqrt(
-            (rDiff * rDiff * 0.3) + 
-            (gDiff * gDiff * 0.59) + 
+            (rDiff * rDiff * 0.3) +
+            (gDiff * gDiff * 0.59) +
             (bDiff * bDiff * 0.11)
         );
 
@@ -470,6 +470,60 @@ function getColorFamily(hex) {
         }
     }
     return closestFamily;
+}
+
+const colorNameToHex = {
+    black: "#000000",
+    white: "#ffffff",
+    grey: "#808080",
+    gray: "#808080",
+    red: "#ff0000",
+    blue: "#0000ff",
+    green: "#008000",
+    yellow: "#ffff00",
+    beige: "#f5f5dc",
+    brown: "#a52a2a",
+    pink: "#ffc0cb",
+    purple: "#800080",
+    orange: "#ffa500",
+    navy: "#000080",
+    teal: "#008080",
+    maroon: "#800000",
+    olive: "#808000",
+    tan: "#d2b48c",
+    charcoal: "#36454f",
+    lavender: "#e6e6fa"
+};
+
+function normalizeHexColor(value) {
+    const raw = String(value ?? "").trim().toLowerCase();
+    if (!raw) return "#000000";
+
+    if (/^#([0-9a-f]{6})$/.test(raw)) {
+        return raw;
+    }
+
+    const rgbMatch = /^rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*\d+(?:\.\d+)?\s*)?\)$/.exec(raw);
+    if (rgbMatch) {
+        return `#${[1, 2, 3].map(i => Number(rgbMatch[i]).toString(16).padStart(2, '0')).join('')}`;
+    }
+
+    const shortMatch = /^#([0-9a-f]{3})$/.exec(raw);
+    if (shortMatch) {
+        return `#${shortMatch[1][0]}${shortMatch[1][0]}${shortMatch[1][1]}${shortMatch[1][1]}${shortMatch[1][2]}${shortMatch[1][2]}`;
+    }
+
+    if (colorNameToHex[raw]) {
+        return colorNameToHex[raw];
+    }
+
+    for (const name in colorNameToHex) {
+        if (raw.includes(name)) {
+            return colorNameToHex[name];
+        }
+    }
+
+    return "#000000";
 }
 
 topColorPicker.addEventListener("input", (e) => {
@@ -516,17 +570,76 @@ function normalizeToken(value) {
     return String(value ?? "").trim().toLowerCase()
 }
 
+async function analyzeUploadedOutfit() {
+    const topFile = topUploadInput?.files?.[0];
+    const bottomFile = bottomUploadInput?.files?.[0];
+    const occasion = normalizeToken(userData.occasion);
+
+    const missing = [];
+    if (!topFile) missing.push("top image");
+    if (!bottomFile) missing.push("bottom image");
+    if (!occasion) missing.push("occasion");
+
+    if (missing.length) {
+        alert(`Please provide: ${missing.join(", ")}.`);
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("topImage", topFile);
+    formData.append("bottomImage", bottomFile);
+    formData.append("occasion", occasion);
+
+    try {
+        const response = await fetch("https://checkthefit-backend.onrender.com/analyse-outfit", {
+            method: "POST",
+            body: formData
+        });
+
+        const payload = await response.json();
+
+        if (!response.ok) {
+            console.error("Analyse outfit failed:", payload);
+            alert(payload.error || "Unable to analyze the uploaded outfit.");
+            return;
+        }
+
+        const topType = normalizeToken(payload.outfitData?.top?.type);
+        const bottomType = normalizeToken(payload.outfitData?.bottom?.type);
+        const topColor = normalizeHexColor(payload.outfitData?.top?.color);
+        const bottomColor = normalizeHexColor(payload.outfitData?.bottom?.color);
+
+        if (!topType || !bottomType) {
+            alert("Could not detect both top and bottom types. Please upload clear outfit photos.");
+            return;
+        }
+
+        userData.outfits[0] = topType;
+        userData.outfits[1] = topColor;
+        userData.outfits[2] = bottomType;
+        userData.outfits[3] = bottomColor;
+        userData.occasion = occasion;
+
+        updateFit();
+        document.getElementById('uploadWardrobePreview').innerHTML =
+            document.getElementById('wardrobePreview').innerHTML
+    } catch (err) {
+        console.error(err);
+        alert("Something went wrong while analyzing the uploaded outfit.");
+    }
+}
+
 function analyzeOutfit() {
     const topType = normalizeToken(userData.outfits[0])
-    
+
     if (!userData.outfits[1]) userData.outfits[1] = "#000000";
     const topColor = getColorFamily(userData.outfits[1]);
-    
+
     const bottomType = normalizeToken(userData.outfits[2])
-    
+
     if (!userData.outfits[3]) userData.outfits[3] = "#000000";
     const bottomColor = getColorFamily(userData.outfits[3]);
-    
+
     const occasion = normalizeToken(userData.occasion)
     const gender = normalizeToken(userData.gender)
 
@@ -558,8 +671,8 @@ function analyzeOutfit() {
         female: new Set(["top", "t-shirt", "tshirt", "kurti", "blouse", "hoodie", "blazer", "sweater"])
     }
     const genderBottoms = {
-        male: new Set(["jeans", "trousers", "shorts"]),
-        female: new Set(["jeans", "trousers", "skirt", "leggings"])
+        male: new Set(["jeans", "trousers", "shorts", "pant", "pants"]),
+        female: new Set(["jeans", "trousers", "skirt", "leggings", "pant", "pants"])
     }
 
     if (gender) {
@@ -592,32 +705,32 @@ function analyzeOutfit() {
         female: new Set(["kurti", "blouse", "blazer", "shirt"])
     }
     const formalBottomByGender = {
-        male: new Set(["trousers"]),
-        female: new Set(["trousers", "skirt"])
+        male: new Set(["trousers", "pant", "pants"]),
+        female: new Set(["trousers", "skirt", "pant", "pants"])
     }
     const casualTopByGender = {
         male: new Set(["t-shirt", "tshirt", "hoodie", "shirt", "sweater"]),
         female: new Set(["top", "t-shirt", "tshirt", "hoodie", "kurti", "sweater"])
     }
     const casualBottomByGender = {
-        male: new Set(["jeans", "shorts", "trousers"]),
-        female: new Set(["jeans", "leggings", "trousers", "skirt"])
+        male: new Set(["jeans", "shorts", "trousers", "pant", "pants"]),
+        female: new Set(["jeans", "leggings", "trousers", "skirt"], "pant", "pants")
     }
     const partyTopByGender = {
         male: new Set(["blazer", "shirt", "t-shirt", "tshirt"]),
         female: new Set(["blouse", "top", "kurti", "blazer"])
     }
     const partyBottomByGender = {
-        male: new Set(["jeans", "trousers"]),
-        female: new Set(["skirt", "jeans", "trousers"])
+        male: new Set(["jeans", "trousers", "pant", "pants"]),
+        female: new Set(["skirt", "jeans", "trousers", "leggings", "pant", "pants"])
     }
     const dateTopByGender = {
         male: new Set(["shirt", "t-shirt", "tshirt", "blazer", "sweater"]),
         female: new Set(["top", "blouse", "kurti", "t-shirt", "tshirt", "sweater"])
     }
     const dateBottomByGender = {
-        male: new Set(["jeans", "trousers"]),
-        female: new Set(["jeans", "skirt", "trousers", "leggings"])
+        male: new Set(["jeans", "trousers", "pant", "pants"]),
+        female: new Set(["jeans", "skirt", "trousers", "leggings", "pant", "pants"])
     }
 
     const getSet = (map) => {
@@ -725,6 +838,7 @@ function updateFit() {
     const reasonsHtml = analysis.reasons.map(r => `<li><span class="reason-dot"></span>${r}</li>`).join("")
 
     wardrobe.innerHTML = `
+    <h2>Your Wardrobe</h2>
     <div class="outfit-card">
         <div class="outfit-details">
             <div class="detail-item">
@@ -764,11 +878,85 @@ function updateFit() {
     `;
 
     // alert(userData.outfits)
+}
 
-    console.log(userData.outfits[0])
-    console.log(userData.outfits[1])
-    console.log(userData.outfits[2])
-    console.log(userData.outfits[3])
+
+const topUploadInput = document.getElementById("topUpload");
+const topImagePreviewEl = document.getElementById("topImagePreview");
+const topUploadBox = document.getElementById("topUploadBox");
+const topPreviewWrapper = document.getElementById("topPreviewWrapper");
+const topRemoveBtn = document.getElementById("topRemoveBtn");
+
+const bottomUploadInput = document.getElementById("bottomUpload");
+const bottomImagePreviewEl = document.getElementById("bottomImagePreview");
+const bottomUploadBox = document.getElementById("bottomUploadBox");
+const bottomPreviewWrapper = document.getElementById("bottomPreviewWrapper");
+const bottomRemoveBtn = document.getElementById("bottomRemoveBtn");
+
+// Handle top image upload
+if (topUploadInput) {
+    topUploadInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                topImagePreviewEl.src = event.target.result;
+                topUploadBox.style.display = "none";
+                topPreviewWrapper.style.display = "flex";
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+// Handle top image remove
+if (topRemoveBtn) {
+    topRemoveBtn.addEventListener("click", () => {
+        topImagePreviewEl.src = "";
+        topUploadInput.value = "";
+        topPreviewWrapper.style.display = "none";
+        topUploadBox.style.display = "block";
+    });
+}
+
+// Handle bottom image upload
+if (bottomUploadInput) {
+    bottomUploadInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                bottomImagePreviewEl.src = event.target.result;
+                bottomUploadBox.style.display = "none";
+                bottomPreviewWrapper.style.display = "flex";
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+// Handle bottom image remove
+if (bottomRemoveBtn) {
+    bottomRemoveBtn.addEventListener("click", () => {
+        bottomImagePreviewEl.src = "";
+        bottomUploadInput.value = "";
+        bottomPreviewWrapper.style.display = "none";
+        bottomUploadBox.style.display = "block";
+    });
 }
 
 console.log(userData)
+
+const uploadOccasionOptions = document.querySelectorAll('#uploadOccasionOptions li')
+const uploadOccasionLabel = document.getElementById('uploadOccasionLabel')
+
+uploadOccasionOptions.forEach(option => {
+    option.addEventListener("click", () => {
+        uploadOccasionOptions.forEach(o => o.classList.remove("selected"))
+        option.classList.add("selected")
+        userData.occasion = option.dataset.value
+        uploadOccasionLabel.innerText = option.innerText
+    })
+})
+
+document.getElementById('analyzeUploadBtn').addEventListener('click', analyzeUploadedOutfit)

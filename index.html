@@ -147,7 +147,7 @@
 
     <section class="wardrobe" id="wardrobe">
         <h1 class="heading">Wardrobe</h1>
-        <p class="tag">Select default clothes or upload your own(future feature).</p>
+        <p class="tag">Select default clothes (do not forget to select your gender!).</p>
         <div class="defaults">
             <h2 id="wardrobeHeading">Select Outfit</h2>
             <div class="top setup">
@@ -195,17 +195,64 @@
                     </ul>
                 </div>
             </div>
-            <button id="addOutfitBtn" onclick="updateFit()">Add Outfit</button>
+            <button id="addOutfitBtn" class="analyze-fit-btn" onclick="updateFit()">Analyze the fit</button>
             <div class="view-wardrobe">
-                <h2>Your Wardrobe</h2>
                 <div id="wardrobePreview" class="preview-grid">
 
                 </div>
             </div>
         </div>
     </section>
-    <section class="coming-soon">
-        <h1>Under<br>Development<span>...</span> </h1>
+    <section class="upload">
+        <h1 class="heading">Upload Your Own Clothes</h1>
+        <p class="tag">Please do not upload any other images than the clothes.</p>
+        <div class="upload-container">
+            <div class="outfit-input">
+                <div class="upload-box setup">
+                    <h3>Upload Top</h3>
+                    <div class="upload-input-box" id="topUploadBox">
+                        <label for="topUpload" class="custom-upload-btn"><img src="images/upload.svg" alt="Upload"></label>
+                        <input type="file" accept="image/*" id="topUpload">
+                    </div>
+                    <div class="preview-wrapper" id="topPreviewWrapper" style="display: none;">
+                        <button class="remove-btn" id="topRemoveBtn">×</button>
+                        <img class="preview-image" id="topImagePreview" src="" alt="Image Preview">
+                    </div>
+                </div>
+                <div class="upload-box setup">
+                    <h3>Upload Bottom</h3>
+                    <div class="upload-input-box" id="bottomUploadBox">
+                        <label for="bottomUpload" class="custom-upload-btn"><img src="images/upload.svg" alt="Upload"></label>
+                        <input type="file" accept="image/*" id="bottomUpload">
+                    </div>
+                    <div class="preview-wrapper" id="bottomPreviewWrapper" style="display: none;">
+                        <button class="remove-btn" id="bottomRemoveBtn">×</button>
+                        <img class="preview-image" id="bottomImagePreview" src="" alt="Image Preview">
+                    </div>
+                </div>
+            </div>
+            <div class="occassion setup">
+                <h3>Occasion</h3>
+                <div class="dropdown" id="uploadOccasionDropdown">
+                    <button type="button" class="dropdown-toggle">
+                        <span id="uploadOccasionLabel">Select occasion</span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" id="uploadOccasionOptions">
+                        <li data-value="casual">Casual</li>
+                        <li data-value="formal">Formal</li>
+                        <li data-value="party">Party</li>
+                        <li data-value="date">Date</li>
+                    </ul>
+                </div>
+            </div>
+            <button id="analyzeUploadBtn" class="analyze-fit-btn">Analyze the fit</button>
+            <div class="view-wardrobe">
+                <div id="uploadWardrobePreview" class="preview-grid">
+
+                </div>
+            </div>
+        </div>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
