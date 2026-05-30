@@ -47,9 +47,28 @@ const wardrobeByGender = {
     }
 }
 
-document.addEventListener("DOMContentLoaded", (event) => {
+document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText)
-});
+    initFooter()
+})
+
+function initFooter() {
+    const footer = document.querySelector(".site-footer")
+    
+
+    gsap.from(".footer-main, .footer-bottom", {
+        scrollTrigger: {
+            trigger: footer,
+            start: "top 92%",
+            toggleActions: "play none none reverse",
+        },
+        y: 36,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.12,
+        ease: "power3.out",
+    })  
+}
 
 document.fonts.ready.then(() => {
     let titleSplit = SplitText.create(".brand-name", {
