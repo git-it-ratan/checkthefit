@@ -1,0 +1,3 @@
+[submodule "checkthefit-backend"]
+	path = checkthefit-backend
+	url = https://github.com/git-it-ratan/checkthefit-backend.git
