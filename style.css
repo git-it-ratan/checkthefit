@@ -727,9 +727,6 @@ body {
     transition: transform 0.2s ease;
 }
 
-.setup:hover {
-    transform: translateY(-2px);
-}
 
 .setup .top-wear,
 .setup .bottom-wear {
@@ -925,7 +922,7 @@ body {
 
 .occasion-chip:not(.selected):hover {
     border-radius: 12px;
-    transform: translateY(-2px);
+    /* transform: translateY(-2px); */
     box-shadow: 0 4px 12px rgba(33, 11, 44, 0.08);
 }
 
@@ -972,6 +969,7 @@ body {
 .analyze-fit-btn:hover {
     background-color: var(--text-color);
     color: var(--bg-color);
+    border-radius: 16px;
 }
 
 
@@ -1214,7 +1212,7 @@ body {
 
 .custom-upload-btn:hover {
     border-radius: 14px;
-    transform: translateY(-2px);
+    /* transform: translateY(-2px); */
     box-shadow: 0 6px 16px rgba(33, 11, 44, 0.08);
 }
 
