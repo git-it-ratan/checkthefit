@@ -12,8 +12,11 @@ let topColorName = document.getElementById('topColorName')
 let bottomColorPicker = document.getElementById('bottomColorPicker')
 let bottomColorPreview = document.getElementById('bottomColorPreview')
 let bottomColorName = document.getElementById('bottomColorName')
-let occasionOptions = document.querySelectorAll('#occasionOptions li')
-let occasionLabel = document.getElementById('occasionLabel')
+let occasionOptions = document.querySelectorAll('#occasionOptions .occasion-chip')
+let uploadOccasionOptions = document.querySelectorAll('#uploadOccasionOptions .occasion-chip')
+let suggestionOccasionOptions = document.querySelectorAll('#suggestionOccasionOptions .occasion-chip')
+let suggestionsGrid = document.getElementById('suggestionsGrid')
+let currentSuggestionOccasion = 'all'
 
 let topOptionsEl = document.getElementById("topOptions")
 let bottomOptionsEl = document.getElementById("bottomOptions")
@@ -54,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function initFooter() {
     const footer = document.querySelector(".site-footer")
-    
+
 
     gsap.from(".footer-main, .footer-bottom", {
         scrollTrigger: {
@@ -67,7 +70,7 @@ function initFooter() {
         duration: 0.7,
         stagger: 0.12,
         ease: "power3.out",
-    })  
+    })
 }
 
 document.fonts.ready.then(() => {
@@ -258,6 +261,7 @@ tones.forEach(btn => {
         userData.skinTone = btn.dataset.tone
         selectedSkinTone = btn.dataset.tone
         drawAvatar()
+        generateSuggestions()
     })
 })
 
@@ -271,6 +275,7 @@ genderBtns.forEach(btn => {
 
         renderWardrobeOptions(userData.gender)
         updateWardrobeHeading()
+        generateSuggestions()
     })
 })
 
@@ -389,36 +394,36 @@ function drawAvatar() {
 
 drawAvatar()
 
-function detectBodyType() {
+function getBodyTypeOnly() {
     let c = parseInt(chest.value)
     let w = parseInt(waist.value)
     let h = parseInt(hips.value)
     let s = parseInt(shoulders.value)
 
-    let bodyType = ""
-
     if (Math.abs(c - w) < 10 && Math.abs(c - h) < 10) {
-        bodyType = "Rectangle";
+        return "Rectangle";
     }
-
     else if ((c > h + 12) || (s > h + 12)) {
-        bodyType = "Inverted Triangle";
+        return "Inverted Triangle";
     }
-
     else if (h > c + 12) {
-        bodyType = "Triangle";
+        return "Triangle";
     }
-
     else if (w > c && w > h) {
-        bodyType = "Oval";
+        return "Oval";
     }
-
     else {
-        bodyType = "Balanced";
+        return "Balanced";
     }
+}
 
+function detectBodyType() {
+    const bodyType = getBodyTypeOnly();
     document.getElementById("bodyTypeText").innerText = "Body type: " + bodyType;
-    return bodyType
+    if (typeof generateSuggestions === "function") {
+        generateSuggestions();
+    }
+    return bodyType;
 }
 
 detectBodyType()
@@ -545,14 +550,86 @@ function normalizeHexColor(value) {
     return "#000000";
 }
 
-topColorPicker.addEventListener("input", (e) => {
-    const hex = e.target.value;
-    topColorPreview.style.backgroundColor = hex;
+function selectOccasion(value) {
+    userData.occasion = value;
+    document.querySelectorAll('.occasion-chip').forEach(chip => {
+        if (chip.dataset.value === value) {
+            chip.classList.add('selected');
+        } else {
+            chip.classList.remove('selected');
+        }
+    });
+    console.log("Occasion selected:", value);
+}
+
+function setTopColor(hex) {
+    userData.outfits[1] = hex;
     const family = getColorFamily(hex);
     topColorName.innerText = family.charAt(0).toUpperCase() + family.slice(1);
-    userData.outfits[1] = hex;
-})
 
+    // Highlight matching swatch
+    document.querySelectorAll('#topSwatches .swatch-btn').forEach(btn => {
+        if (btn.dataset.color.toLowerCase() === hex.toLowerCase()) {
+            btn.classList.add('selected');
+        } else {
+            btn.classList.remove('selected');
+        }
+    });
+
+    // Handle custom picker style
+    const customLabel = document.querySelector('#topSwatches .custom-color-swatch');
+    if (customLabel) {
+        const isPreset = Array.from(document.querySelectorAll('#topSwatches .swatch-btn'))
+            .some(btn => btn.dataset.color.toLowerCase() === hex.toLowerCase());
+        if (!isPreset) {
+            customLabel.classList.add('selected');
+            topColorPreview.style.backgroundColor = hex;
+        } else {
+            customLabel.classList.remove('selected');
+        }
+    }
+}
+
+function setBottomColor(hex) {
+    userData.outfits[3] = hex;
+    const family = getColorFamily(hex);
+    bottomColorName.innerText = family.charAt(0).toUpperCase() + family.slice(1);
+
+    // Highlight matching swatch
+    document.querySelectorAll('#bottomSwatches .swatch-btn').forEach(btn => {
+        if (btn.dataset.color.toLowerCase() === hex.toLowerCase()) {
+            btn.classList.add('selected');
+        } else {
+            btn.classList.remove('selected');
+        }
+    });
+
+    // Handle custom picker style
+    const customLabel = document.querySelector('#bottomSwatches .custom-color-swatch');
+    if (customLabel) {
+        const isPreset = Array.from(document.querySelectorAll('#bottomSwatches .swatch-btn'))
+            .some(btn => btn.dataset.color.toLowerCase() === hex.toLowerCase());
+        if (!isPreset) {
+            customLabel.classList.add('selected');
+            bottomColorPreview.style.backgroundColor = hex;
+        } else {
+            customLabel.classList.remove('selected');
+        }
+    }
+}
+
+// Bind top swatches
+document.querySelectorAll('#topSwatches .swatch-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        setTopColor(btn.dataset.color);
+    });
+});
+
+topColorPicker.addEventListener("input", (e) => {
+    setTopColor(e.target.value);
+});
+
+// Bind bottom options click
 bottomOptionsEl.addEventListener("click", (e) => {
     const btn = e.target.closest(".b-opt")
     if (!btn) return
@@ -561,25 +638,23 @@ bottomOptionsEl.addEventListener("click", (e) => {
     userData.outfits[2] = btn.dataset.type
 })
 
-bottomColorPicker.addEventListener("input", (e) => {
-    const hex = e.target.value;
-    bottomColorPreview.style.backgroundColor = hex;
-    const family = getColorFamily(hex);
-    bottomColorName.innerText = family.charAt(0).toUpperCase() + family.slice(1);
-    userData.outfits[3] = hex;
-})
+// Bind bottom swatches
+document.querySelectorAll('#bottomSwatches .swatch-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        setBottomColor(btn.dataset.color);
+    });
+});
 
+bottomColorPicker.addEventListener("input", (e) => {
+    setBottomColor(e.target.value);
+});
+
+// Bind occasion options
 occasionOptions.forEach(option => {
     option.addEventListener("click", () => {
-        occasionOptions.forEach(o => o.classList.remove("selected"))
-        option.classList.add("selected")
-
-        const value = option.dataset.value
-        userData.occasion = value
-        occasionLabel.innerText = option.innerText
-        console.log("Occasion:", value)
+        selectOccasion(option.dataset.value);
     })
-})
+});
 
 let addOutfitBtn = document.getElementById("addOutfitBtn")
 let wardrobe = document.getElementById("wardrobePreview")
@@ -639,7 +714,7 @@ async function analyzeUploadedOutfit() {
         userData.outfits[1] = topColor;
         userData.outfits[2] = bottomType;
         userData.outfits[3] = bottomColor;
-        userData.occasion = occasion;
+        selectOccasion(occasion);
 
         updateFit();
         document.getElementById('uploadWardrobePreview').innerHTML =
@@ -970,16 +1045,449 @@ if (bottomRemoveBtn) {
 
 console.log(userData)
 
-const uploadOccasionOptions = document.querySelectorAll('#uploadOccasionOptions li')
-const uploadOccasionLabel = document.getElementById('uploadOccasionLabel')
-
 uploadOccasionOptions.forEach(option => {
     option.addEventListener("click", () => {
-        uploadOccasionOptions.forEach(o => o.classList.remove("selected"))
-        option.classList.add("selected")
-        userData.occasion = option.dataset.value
-        uploadOccasionLabel.innerText = option.innerText
+        selectOccasion(option.dataset.value);
     })
 })
 
 document.getElementById('analyzeUploadBtn').addEventListener('click', analyzeUploadedOutfit)
+
+// --- SUGGESTIONS ENGINE DATA & LOGIC ---
+
+const hexToColorName = {
+    "#000000": "Black",
+    "#ffffff": "White",
+    "#808080": "Grey",
+    "#000080": "Navy",
+    "#f5f5dc": "Beige",
+    "#556b2f": "Olive",
+    "#800020": "Burgundy",
+    "#d90429": "Red"
+};
+
+const outfitTemplates = [
+    // --- MALE ---
+    {
+        gender: "male",
+        occasion: "casual",
+        title: "Urban Minimalist",
+        top: "T-Shirt",
+        bottom: "Jeans",
+        colorPairings: {
+            light: { top: "#808080", bottom: "#000000" }, // Grey & Black
+            medium: { top: "#f5f5dc", bottom: "#000080" }, // Beige & Navy
+            dark: { top: "#ffffff", bottom: "#000000" } // White & Black
+        },
+        description: "A clean, modern look for daily wear that balances comfort and effortless style."
+    },
+    {
+        gender: "male",
+        occasion: "casual",
+        title: "Rugged Earth Outfit",
+        top: "Hoodie",
+        bottom: "Jeans",
+        colorPairings: {
+            light: { top: "#556b2f", bottom: "#000000" }, // Olive & Black
+            medium: { top: "#800020", bottom: "#f5f5dc" }, // Burgundy & Beige
+            dark: { top: "#808080", bottom: "#000080" } // Grey & Navy
+        },
+        description: "A laid-back look with organic tones, great for cool weather and casual hangouts."
+    },
+    {
+        gender: "male",
+        occasion: "casual",
+        title: "Modern Cozy Layer",
+        top: "Sweater",
+        bottom: "Trousers",
+        colorPairings: {
+            light: { top: "#000080", bottom: "#808080" }, // Navy & Grey
+            medium: { top: "#556b2f", bottom: "#000000" }, // Olive & Black
+            dark: { top: "#f5f5dc", bottom: "#000000" } // Beige & Black
+        },
+        description: "A smart-casual sweater combination that is comfortable yet looks composed."
+    },
+    {
+        gender: "male",
+        occasion: "formal",
+        title: "Executive Classic",
+        top: "Shirt",
+        bottom: "Trousers",
+        colorPairings: {
+            light: { top: "#ffffff", bottom: "#000080" }, // White & Navy
+            medium: { top: "#ffffff", bottom: "#000000" }, // White & Black
+            dark: { top: "#f5f5dc", bottom: "#000080" } // Beige & Navy
+        },
+        description: "The timeless corporate choice. Sharp, clean, and highly professional."
+    },
+    {
+        gender: "male",
+        occasion: "formal",
+        title: "Sartorial Contrast",
+        top: "Blazer",
+        bottom: "Trousers",
+        colorPairings: {
+            light: { top: "#000080", bottom: "#808080" }, // Navy & Grey
+            medium: { top: "#800020", bottom: "#000000" }, // Burgundy & Black
+            dark: { top: "#808080", bottom: "#ffffff" } // Grey & White
+        },
+        description: "An elegant unstructured blazer pairing that adds immediate prestige and structure."
+    },
+    {
+        gender: "male",
+        occasion: "party",
+        title: "Vibrant Night Out",
+        top: "Blazer",
+        bottom: "Trousers",
+        colorPairings: {
+            light: { top: "#800020", bottom: "#000000" }, // Burgundy & Black
+            medium: { top: "#000080", bottom: "#f5f5dc" }, // Navy & Beige
+            dark: { top: "#d90429", bottom: "#000000" } // Red & Black
+        },
+        description: "A rich colored blazer with neutral pants makes a bold statement at any social gathering."
+    },
+    {
+        gender: "male",
+        occasion: "party",
+        title: "Sleek Dark Partywear",
+        top: "Shirt",
+        bottom: "Jeans",
+        colorPairings: {
+            light: { top: "#000000", bottom: "#808080" }, // Black & Grey
+            medium: { top: "#800020", bottom: "#000000" }, // Burgundy & Black
+            dark: { top: "#d90429", bottom: "#808080" } // Red & Grey
+        },
+        description: "All-dark tones look modern and sleek under party lights—highly confident."
+    },
+    {
+        gender: "male",
+        occasion: "date",
+        title: "Refined Date Look",
+        top: "Shirt",
+        bottom: "Trousers",
+        colorPairings: {
+            light: { top: "#800020", bottom: "#000080" }, // Burgundy & Navy
+            medium: { top: "#556b2f", bottom: "#000000" }, // Olive & Black
+            dark: { top: "#ffffff", bottom: "#000080" } // White & Navy
+        },
+        description: "Warm accents paired with dark pants provide a cozy, handsome, and trustworthy aesthetic."
+    },
+    {
+        gender: "male",
+        occasion: "date",
+        title: "Smart Casual Knits",
+        top: "Sweater",
+        bottom: "Jeans",
+        colorPairings: {
+            light: { top: "#000080", bottom: "#808080" }, // Navy & Grey
+            medium: { top: "#800020", bottom: "#000000" }, // Burgundy & Black
+            dark: { top: "#556b2f", bottom: "#000000" } // Olive & Black
+        },
+        description: "A soft, premium knit top paired with fitted denim offers a warm, touchable, and balanced look."
+    },
+
+    // --- FEMALE ---
+    {
+        gender: "female",
+        occasion: "casual",
+        title: "Everyday Denim Chic",
+        top: "T-Shirt",
+        bottom: "Jeans",
+        colorPairings: {
+            light: { top: "#808080", bottom: "#000080" }, // Grey & Navy
+            medium: { top: "#800020", bottom: "#f5f5dc" }, // Burgundy & Beige
+            dark: { top: "#ffffff", bottom: "#000000" } // White & Black
+        },
+        description: "Classic styling for quick social outings that feels lightweight and looks clean."
+    },
+    {
+        gender: "female",
+        occasion: "casual",
+        title: "Feminine Skirt Line",
+        top: "Top",
+        bottom: "Skirt",
+        colorPairings: {
+            light: { top: "#000080", bottom: "#ffffff" }, // Navy & White
+            medium: { top: "#556b2f", bottom: "#f5f5dc" }, // Olive & Beige
+            dark: { top: "#d90429", bottom: "#000000" } // Red & Black
+        },
+        description: "A breezy skirt combination that provides soft structural lines and excellent movement."
+    },
+    {
+        gender: "female",
+        occasion: "casual",
+        title: "Sporty Cozy Look",
+        top: "Hoodie",
+        bottom: "Leggings",
+        colorPairings: {
+            light: { top: "#808080", bottom: "#000000" }, // Grey & Black
+            medium: { top: "#556b2f", bottom: "#000000" }, // Olive & Black
+            dark: { top: "#000080", bottom: "#808080" } // Navy & Grey
+        },
+        description: "Perfect casual athleisure that is comfortable, functional, and contemporary."
+    },
+    {
+        gender: "female",
+        occasion: "formal",
+        title: "Power Professional",
+        top: "Blouse",
+        bottom: "Trousers",
+        colorPairings: {
+            light: { top: "#ffffff", bottom: "#000080" }, // White & Navy
+            medium: { top: "#f5f5dc", bottom: "#000000" }, // Beige & Black
+            dark: { top: "#ffffff", bottom: "#000000" } // White & Black
+        },
+        description: "A sharp, corporate-ready combination that creates clean lines and exudes professionalism."
+    },
+    {
+        gender: "female",
+        occasion: "formal",
+        title: "Fusion Sophistication",
+        top: "Kurti",
+        bottom: "Leggings",
+        colorPairings: {
+            light: { top: "#800020", bottom: "#ffffff" }, // Burgundy & White
+            medium: { top: "#000080", bottom: "#f5f5dc" }, // Navy & Beige
+            dark: { top: "#556b2f", bottom: "#000000" } // Olive & Black
+        },
+        description: "An elegant, traditional silhouette paired with snug bottoms that is office-ready."
+    },
+    {
+        gender: "female",
+        occasion: "formal",
+        title: "Structured Authority",
+        top: "Blazer",
+        bottom: "Trousers",
+        colorPairings: {
+            light: { top: "#000080", bottom: "#808080" }, // Navy & Grey
+            medium: { top: "#000000", bottom: "#f5f5dc" }, // Black & Beige
+            dark: { top: "#808080", bottom: "#000000" } // Grey & Black
+        },
+        description: "A structured jacket silhouette that sharpens shoulders and streamlines your frame."
+    },
+    {
+        gender: "female",
+        occasion: "party",
+        title: "Bold Night Out",
+        top: "Top",
+        bottom: "Skirt",
+        colorPairings: {
+            light: { top: "#d90429", bottom: "#000000" }, // Red & Black
+            medium: { top: "#800020", bottom: "#000000" }, // Burgundy & Black
+            dark: { top: "#ffffff", bottom: "#000000" } // White & Black
+        },
+        description: "A striking, high-contrast party pairing that highlights curves and looks premium."
+    },
+    {
+        gender: "female",
+        occasion: "party",
+        title: "Chic Blazer & Trousers",
+        top: "Blazer",
+        bottom: "Trousers",
+        colorPairings: {
+            light: { top: "#800020", bottom: "#000000" }, // Burgundy & Black
+            medium: { top: "#000080", bottom: "#f5f5dc" }, // Navy & Beige
+            dark: { top: "#d90429", bottom: "#000000" } // Red & Black
+        },
+        description: "A structured, festive blazer look that is modern, fashion-forward, and crisp."
+    },
+    {
+        gender: "female",
+        occasion: "date",
+        title: "Romantic Knit Combo",
+        top: "Sweater",
+        bottom: "Skirt",
+        colorPairings: {
+            light: { top: "#800020", bottom: "#ffffff" }, // Burgundy & White
+            medium: { top: "#f5f5dc", bottom: "#000080" }, // Beige & Navy
+            dark: { top: "#d90429", bottom: "#000000" } // Red & Black
+        },
+        description: "Soft texture contrast between knit top and skirt creates an inviting, sweet aesthetic."
+    },
+    {
+        gender: "female",
+        occasion: "date",
+        title: "Charming Date Classic",
+        top: "Blouse",
+        bottom: "Jeans",
+        colorPairings: {
+            light: { top: "#f5f5dc", bottom: "#000080" }, // Beige & Navy
+            medium: { top: "#800020", bottom: "#000000" }, // Burgundy & Black
+            dark: { top: "#ffffff", bottom: "#000080" } // White & Navy
+        },
+        description: "A structured blouse paired with classic denim offers an elegant and approachable charm."
+    }
+];
+
+function getSkinToneGroup(hex) {
+    const lightTones = ["#fdebd0", "#f5cba7"];
+    const mediumTones = ["#d4a574", "#c4a882", "#a0785a"];
+    const darkTones = ["#6f4e37", "#3e2723"];
+    
+    if (lightTones.includes(hex)) return "light";
+    if (mediumTones.includes(hex)) return "medium";
+    if (darkTones.includes(hex)) return "dark";
+    return "medium"; // Default fallback
+}
+
+function generateSuggestions() {
+    if (!suggestionsGrid) return;
+    
+    if (!userData.gender) {
+        suggestionsGrid.innerHTML = `
+            <div class="suggestions-prompt">
+                <p>Please select your gender and skin tone in the Avatar Creator to see personalized outfit suggestions!</p>
+            </div>
+        `;
+        return;
+    }
+
+    const skinTone = selectedSkinTone || userData.skinTone || "#f5cba7";
+    const skinToneGroup = getSkinToneGroup(skinTone);
+    const bodyType = getBodyTypeOnly();
+
+    // Filter templates by gender and occasion
+    let filtered = outfitTemplates.filter(t => t.gender === userData.gender);
+    if (currentSuggestionOccasion !== 'all') {
+        filtered = filtered.filter(t => t.occasion === currentSuggestionOccasion);
+    }
+
+    // Limit to top 3 suggestions
+    const suggestionsToShow = filtered.slice(0, 3);
+
+    if (suggestionsToShow.length === 0) {
+        suggestionsGrid.innerHTML = `
+            <div class="suggestions-prompt">
+                <p>No outfits found for this occasion.</p>
+            </div>
+        `;
+        return;
+    }
+
+    suggestionsGrid.innerHTML = suggestionsToShow.map(template => {
+        const pairing = template.colorPairings[skinToneGroup] || template.colorPairings['medium'];
+        const topHex = pairing.top;
+        const bottomHex = pairing.bottom;
+        const topColorName = hexToColorName[topHex] || "Custom";
+        const bottomColorName = hexToColorName[bottomHex] || "Custom";
+
+        // Body type explanation text
+        let bodyTypeFeedback = "";
+        if (bodyType === "Triangle") {
+            bodyTypeFeedback = `The ${template.top.toLowerCase()} adds structured lines to balance out your wider hip line.`;
+        } else if (bodyType === "Inverted Triangle") {
+            bodyTypeFeedback = `Pairing the ${template.top.toLowerCase()} with a distinct ${template.bottom.toLowerCase()} helps draw attention downwards to balance your shoulders.`;
+        } else if (bodyType === "Oval") {
+            bodyTypeFeedback = `The fit creates clean vertical lines, which helps streamline your torso.`;
+        } else if (bodyType === "Rectangle") {
+            bodyTypeFeedback = `The contrast between the ${topColorName.toLowerCase()} top and ${bottomColorName.toLowerCase()} bottom adds waist definition to your frame.`;
+        } else {
+            bodyTypeFeedback = `This silhouette flows naturally along your balanced proportions, highlighting your frame.`;
+        }
+
+        // Skin tone feedback text
+        let skinToneFeedback = "";
+        if (skinToneGroup === "light") {
+            skinToneFeedback = `The rich ${topColorName.toLowerCase()} contrasts beautifully with fair skin tones, preventing a washed-out look.`;
+        } else if (skinToneGroup === "medium") {
+            skinToneFeedback = `Warm ${topColorName.toLowerCase()} and ${bottomColorName.toLowerCase()} undertones complement medium and olive complexions perfectly.`;
+        } else {
+            skinToneFeedback = `Vibrant and high-contrast tones like ${topColorName.toLowerCase()} stand out stunningly on deep skin complexions.`;
+        }
+
+        return `
+            <div class="suggestion-card">
+                <div class="suggestion-header">
+                    <h2 class="suggestion-title">${template.title}</h2>
+                    <span class="suggestion-badge">${template.occasion}</span>
+                </div>
+                
+                <div class="suggestion-outfit-preview">
+                    <div class="preview-item">
+                        <span class="preview-label">Top Wear</span>
+                        <div class="preview-visual" style="background-color: ${topHex};" title="${topColorName}"></div>
+                        <span class="preview-value">${template.top}</span>
+                    </div>
+                    <div class="preview-item">
+                        <span class="preview-label">Bottom Wear</span>
+                        <div class="preview-visual" style="background-color: ${bottomHex};" title="${bottomColorName}"></div>
+                        <span class="preview-value">${template.bottom}</span>
+                    </div>
+                </div>
+
+                <div class="suggestion-details">
+                    <p class="detail-point">
+                        <span><strong>Outfit Vibe:</strong> ${template.description}</span>
+                    </p>
+                    <p class="detail-point">
+                        <span><strong>For Your Shape:</strong> ${bodyTypeFeedback}</span>
+                    </p>
+                    <p class="detail-point">
+                        <span><strong>Skin Harmony:</strong> ${skinToneFeedback}</span>
+                    </p>
+                </div>
+
+                <button class="try-fit-btn" onclick="trySuggestedOutfit('${template.top}', '${topHex}', '${template.bottom}', '${bottomHex}', '${template.occasion}')">
+                    <span>Try this outfit</span>
+                    <span>→</span>
+                </button>
+            </div>
+        `;
+    }).join("");
+}
+
+function trySuggestedOutfit(top, topColor, bottom, bottomColor, occasion) {
+    // 1. Select the Top type
+    const topBtn = Array.from(topOptionsEl.querySelectorAll('.t-opt')).find(b => b.dataset.type === top);
+    if (topBtn) {
+        topOptionsEl.querySelectorAll(".t-opt").forEach(b => b.classList.remove("selected"));
+        topBtn.classList.add("selected");
+        userData.outfits[0] = top;
+    }
+
+    // 2. Select the Top color
+    setTopColor(topColor);
+    topColorPicker.value = topColor;
+    topColorPreview.style.backgroundColor = topColor;
+
+    // 3. Select the Bottom type
+    const bottomBtn = Array.from(bottomOptionsEl.querySelectorAll('.b-opt')).find(b => b.dataset.type === bottom);
+    if (bottomBtn) {
+        bottomOptionsEl.querySelectorAll(".b-opt").forEach(b => b.classList.remove("selected"));
+        bottomBtn.classList.add("selected");
+        userData.outfits[2] = bottom;
+    }
+
+    // 4. Select the Bottom color
+    setBottomColor(bottomColor);
+    bottomColorPicker.value = bottomColor;
+    bottomColorPreview.style.backgroundColor = bottomColor;
+
+    // 5. Select Occasion
+    selectOccasion(occasion);
+
+    // 6. Run the Fit Update analysis
+    updateFit();
+
+    // 7. Scroll smoothly to Wardrobe section
+    const wardrobeSection = document.getElementById("wardrobe");
+    if (wardrobeSection) {
+        wardrobeSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+// Bind suggestion occasion filters
+suggestionOccasionOptions.forEach(option => {
+    option.addEventListener("click", () => {
+        suggestionOccasionOptions.forEach(b => b.classList.remove("selected"));
+        option.classList.add("selected");
+        currentSuggestionOccasion = option.dataset.value;
+        generateSuggestions();
+    });
+});
+
+// Expose trySuggestedOutfit globally for onclick attributes
+window.trySuggestedOutfit = trySuggestedOutfit;
+
+// Initial invocation of suggestions display
+generateSuggestions();

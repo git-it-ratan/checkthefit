@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -19,6 +19,7 @@
             <ul>
                 <li><a href="#features">Features</a></li>
                 <li><a href="#avatar">Avatar</a></li>
+                <li><a href="#suggestions">Suggestions</a></li>
                 <li><a href="#wardrobe">Wardrobe</a></li>
             </ul>
         </nav>
@@ -140,54 +141,112 @@
         </div>
     </section>
 
+    <section class="suggestions" id="suggestions">
+        <h1 class="heading">Suggested Outfits</h1>
+        <p class="tag">Tailored styling recommendations based on your body shape, skin tone, and occasion.</p>
+        
+        <div class="suggestions-filter-container">
+            <h3>Filter by Occasion:</h3>
+            <div class="occasion-chips" id="suggestionOccasionOptions">
+                <div class="occasion-chip selected" data-value="all">
+                    <span class="chip-text">All Occasions</span>
+                </div>
+                <div class="occasion-chip" data-value="casual">
+                    <span class="chip-text">Casual</span>
+                </div>
+                <div class="occasion-chip" data-value="formal">
+                    <span class="chip-text">Formal</span>
+                </div>
+                <div class="occasion-chip" data-value="party">
+                    <span class="chip-text">Party</span>
+                </div>
+                <div class="occasion-chip" data-value="date">
+                    <span class="chip-text">Date</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="suggestions-grid" id="suggestionsGrid">
+            <!-- Dynamically populated suggestion cards -->
+        </div>
+    </section>
+
     <section class="wardrobe" id="wardrobe">
         <h1 class="heading">Wardrobe</h1>
         <p class="tag">Select default clothes (do not forget to select your gender!).</p>
         <div class="defaults">
             <h2>Select Outfit</h2>
-            <div class="top setup">
-                <div class="top-wear">
-                    <h3>Choose Top</h3>
-                    <div class="fit-options" id="topOptions">
-                        <!-- -->
+            <div class="wear-box">
+                <div class="top setup">
+                    <div class="top-wear">
+                        <h3>Choose Top</h3>
+                        <div class="fit-options" id="topOptions">
+                            <!-- Dynamically loaded -->
+                        </div>
+                    </div>
+                    <div class="color-options">
+                        <h3>Choose Color</h3>
+                        <div class="swatches-container" id="topSwatches">
+                            <button type="button" class="swatch-btn selected" data-color="#000000" style="background-color: #000000;" title="Black"></button>
+                            <button type="button" class="swatch-btn" data-color="#ffffff" style="background-color: #ffffff;" title="White"></button>
+                            <button type="button" class="swatch-btn" data-color="#808080" style="background-color: #808080;" title="Grey"></button>
+                            <button type="button" class="swatch-btn" data-color="#000080" style="background-color: #000080;" title="Navy"></button>
+                            <button type="button" class="swatch-btn" data-color="#f5f5dc" style="background-color: #f5f5dc;" title="Beige"></button>
+                            <button type="button" class="swatch-btn" data-color="#556b2f" style="background-color: #556b2f;" title="Olive"></button>
+                            <button type="button" class="swatch-btn" data-color="#800020" style="background-color: #800020;" title="Burgundy"></button>
+                            <button type="button" class="swatch-btn" data-color="#d90429" style="background-color: #d90429;" title="Red"></button>
+                            <label class="custom-color-swatch" for="topColorPicker" title="Custom Color">
+                                <span class="swatch-custom-preview" id="topColorPreview" style="background-color: #000000;"></span>
+                                <span class="plus-icon">+</span>
+                            </label>
+                            <input type="color" id="topColorPicker" value="#000000" class="hidden-color-input">
+                        </div>
+                        <div class="selected-color-label">Selected: <span id="topColorName">Black</span></div>
                     </div>
                 </div>
-                <div class="color-options">
-                    <label class="custom-color-btn" for="topColorPicker">
-                        <span class="color-preview" id="topColorPreview" style="background-color: #000000;"></span>
-                        <span id="topColorName">Pick Top Color</span>
-                    </label>
-                    <input type="color" id="topColorPicker" value="#000000" class="hidden-color-input">
-                </div>
-            </div>
-            <div class="bottom setup">
-                <div class="bottom-wear">
-                    <h3>Choose Bottom</h3>
-                    <div class="fit-options" id="bottomOptions">
-                        <!--  -->
+                <div class="bottom setup">
+                    <div class="bottom-wear">
+                        <h3>Choose Bottom</h3>
+                        <div class="fit-options" id="bottomOptions">
+                            <!-- Dynamically loaded -->
+                        </div>
                     </div>
-                </div>
-                <div class="color-options">
-                    <label class="custom-color-btn" for="bottomColorPicker">
-                        <span class="color-preview" id="bottomColorPreview" style="background-color: #000000;"></span>
-                        <span id="bottomColorName">Pick Bottom Color</span>
-                    </label>
-                    <input type="color" id="bottomColorPicker" value="#000000" class="hidden-color-input">
+                    <div class="color-options">
+                        <h3>Choose Color</h3>
+                        <div class="swatches-container" id="bottomSwatches">
+                            <button type="button" class="swatch-btn selected" data-color="#000000" style="background-color: #000000;" title="Black"></button>
+                            <button type="button" class="swatch-btn" data-color="#ffffff" style="background-color: #ffffff;" title="White"></button>
+                            <button type="button" class="swatch-btn" data-color="#808080" style="background-color: #808080;" title="Grey"></button>
+                            <button type="button" class="swatch-btn" data-color="#000080" style="background-color: #000080;" title="Navy"></button>
+                            <button type="button" class="swatch-btn" data-color="#f5f5dc" style="background-color: #f5f5dc;" title="Beige"></button>
+                            <button type="button" class="swatch-btn" data-color="#556b2f" style="background-color: #556b2f;" title="Olive"></button>
+                            <button type="button" class="swatch-btn" data-color="#800020" style="background-color: #800020;" title="Burgundy"></button>
+                            <button type="button" class="swatch-btn" data-color="#d90429" style="background-color: #d90429;" title="Red"></button>
+                            <label class="custom-color-swatch" for="bottomColorPicker" title="Custom Color">
+                                <span class="swatch-custom-preview" id="bottomColorPreview" style="background-color: #000000;"></span>
+                                <span class="plus-icon">+</span>
+                            </label>
+                            <input type="color" id="bottomColorPicker" value="#000000" class="hidden-color-input">
+                        </div>
+                        <div class="selected-color-label">Selected: <span id="bottomColorName">Black</span></div>
+                    </div>
                 </div>
             </div>
             <div class="occassion setup">
-                <h3>Occasion</h3>
-                <div class="dropdown" id="occasionDropdown">
-                    <button type="button" class="dropdown-toggle">
-                        <span id="occasionLabel">Select occasion</span>
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" id="occasionOptions">
-                        <li data-value="casual">Casual</li>
-                        <li data-value="formal">Formal</li>
-                        <li data-value="party">Party</li>
-                        <li data-value="date">Date</li>
-                    </ul>
+                <h3>Select Occasion</h3>
+                <div class="occasion-chips" id="occasionOptions">
+                    <div class="occasion-chip" data-value="casual">
+                        <span class="chip-text">Casual</span>
+                    </div>
+                    <div class="occasion-chip" data-value="formal">
+                        <span class="chip-text">Formal</span>
+                    </div>
+                    <div class="occasion-chip" data-value="party">
+                        <span class="chip-text">Party</span>
+                    </div>
+                    <div class="occasion-chip" data-value="date">
+                        <span class="chip-text">Date</span>
+                    </div>
                 </div>
             </div>
             <button id="addOutfitBtn" class="analyze-fit-btn" onclick="updateFit()">Analyze the fit</button>
@@ -206,7 +265,8 @@
                 <div class="upload-box setup">
                     <h3>Upload Top</h3>
                     <div class="upload-input-box" id="topUploadBox">
-                        <label for="topUpload" class="custom-upload-btn"><img src="images/upload.svg" alt="Upload"></label>
+                        <label for="topUpload" class="custom-upload-btn"><img src="images/upload.svg"
+                                alt="Upload"></label>
                         <input type="file" accept="image/*" id="topUpload">
                     </div>
                     <div class="preview-wrapper" id="topPreviewWrapper" style="display: none;">
@@ -217,7 +277,8 @@
                 <div class="upload-box setup">
                     <h3>Upload Bottom</h3>
                     <div class="upload-input-box" id="bottomUploadBox">
-                        <label for="bottomUpload" class="custom-upload-btn"><img src="images/upload.svg" alt="Upload"></label>
+                        <label for="bottomUpload" class="custom-upload-btn"><img src="images/upload.svg"
+                                alt="Upload"></label>
                         <input type="file" accept="image/*" id="bottomUpload">
                     </div>
                     <div class="preview-wrapper" id="bottomPreviewWrapper" style="display: none;">
@@ -227,18 +288,20 @@
                 </div>
             </div>
             <div class="occassion setup">
-                <h3>Occasion</h3>
-                <div class="dropdown" id="uploadOccasionDropdown">
-                    <button type="button" class="dropdown-toggle">
-                        <span id="uploadOccasionLabel">Select occasion</span>
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" id="uploadOccasionOptions">
-                        <li data-value="casual">Casual</li>
-                        <li data-value="formal">Formal</li>
-                        <li data-value="party">Party</li>
-                        <li data-value="date">Date</li>
-                    </ul>
+                <h3>Select Occasion</h3>
+                <div class="occasion-chips" id="uploadOccasionOptions">
+                    <div class="occasion-chip" data-value="casual">
+                        <span class="chip-text">Casual</span>
+                    </div>
+                    <div class="occasion-chip" data-value="formal">
+                        <span class="chip-text">Formal</span>
+                    </div>
+                    <div class="occasion-chip" data-value="party">
+                        <span class="chip-text">Party</span>
+                    </div>
+                    <div class="occasion-chip" data-value="date">
+                        <span class="chip-text">Date</span>
+                    </div>
                 </div>
             </div>
             <button id="analyzeUploadBtn" class="analyze-fit-btn">Analyze the fit</button>
@@ -260,6 +323,7 @@
                 <nav class="footer-nav" aria-label="Footer">
                     <a href="#features">Features</a>
                     <a href="#avatar">Avatar</a>
+                    <a href="#suggestions">Suggestions</a>
                     <a href="#wardrobe">Wardrobe</a>
                 </nav>
             </div>

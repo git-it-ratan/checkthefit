@@ -21,7 +21,7 @@
     --hilyt-color: #b0a6df;
     --fix-color: #000;
     /* d5c6e0 967aa1 b89ccb BC8DA0 bb5982 b7a7e6 9C89B8*/
-    --acc-color: #ffd166;
+    --acc-color: #b3e55d;
     /* 9b5de5 */
 }
 
@@ -183,14 +183,14 @@ body {
     width: 100%;
     max-width: 100%;
     font-size: clamp(2rem, 15vw, 15rem);
-    font-family: "Kugile", sans-serif;
+    font-family: "Outfit", sans-serif;
     font-weight: 400;
     color: var(--text-color);
-    letter-spacing: clamp(-5px, -0.6vw, -10px);
+    letter-spacing: clamp(-5px, -1vw, -12px);
     text-align: left;
     line-height: 0.75;
     pointer-events: none;
-    transform: scaleY(1.1);
+    /* transform: scaleY(1.1); */
     transform-origin: left center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
@@ -272,30 +272,27 @@ body {
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.hero .cta-buttons button .btn-text {
-    transition: transform 0.3s ease;
+.hero .cta-buttons button:hover {
+    /* background-color: var(--text-color); */
+    /* color: var(--bg-color); */
+    border-color: var(--text-color);
 }
 
 .hero .cta-buttons button .arrow {
     position: absolute;
-    right: 20px;
-    transform: translateY(-150%);
+    right: 10px;
     opacity: 0;
     transition: all 0.3s ease;
-}
-
-.hero .cta-buttons button:hover .btn-text {
-    transform: translateX(-10px);
+    transform: translateY(-100%);
 }
 
 .hero .cta-buttons button:hover .arrow {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
 }
-
-
 
 .banner {
     width: 100%;
@@ -304,7 +301,7 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding: 80px 5vw;
+    padding: 40px 5vw;
     /* margin-bottom: 30px; */
     /* background-color: #2d274b; */
 }
@@ -320,7 +317,7 @@ body {
 .banner p {
     margin-top: 30px;
     width: 80%;
-    font-size: 4rem;
+    font-size: 3rem;
     font-family: "Outfit", sans-serif;
     color: var(--text-color);
     letter-spacing: 0px;
@@ -534,17 +531,15 @@ body {
     border-radius: 50%;
     border: 1px solid var(--fix-color);
     cursor: pointer;
-    transition: 0.2s;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .tone:hover {
-    /* border: 3px solid var(--text-color); */
-    transform: scale(1.2);
+    border-color: var(--text-color);
 }
 
 .tone.selected {
-    /* border: 3px solid var(--text-color); */
-    transform: scale(1.2);
+    box-shadow: 0 0 0 2px var(--bg-color), 0 0 0 4px var(--fix-color);
 }
 
 .avatar .operation .measurements-tab .skin-tones {
@@ -578,13 +573,13 @@ body {
     background-color: var(--bg-color);
     border: 1px solid var(--fix-color);
     cursor: pointer;
-    transition: 0.2s;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     font-family: "Outfit";
     font-size: 1.2rem;
 }
 
-.avatar .operation .measurements-tab .genders .gender-btn:hover {
-    /* scale: 0.97; */
+.avatar .operation .measurements-tab .genders .gender-btn:not(.selected):hover {
+    /* background-color: var(--hilyt-color); */
     border-radius: 10px;
 }
 
@@ -647,7 +642,7 @@ body {
     background-color: var(--bg-color);
     border: 1px solid var(--fix-color);
     cursor: pointer;
-    transition: 0.2s;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     font-family: "Outfit";
     font-size: 1.2rem;
 }
@@ -681,79 +676,104 @@ body {
 .wardrobe .defaults {
     width: 100%;
     background-color: var(--bg-color);
-    height: 100%;
+    height: auto;
     border-radius: 20px;
     border: 2px solid var(--fix-color);
-    padding: 20px;
+    padding: clamp(20px, 4vw, 36px);
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    align-items: flex-start;
+    gap: 24px;
+    align-items: stretch;
     margin-top: 30px;
+    --wardrobe-ctrl-h: 52px;
+    --wardrobe-ctrl-radius: 20px;
+    --wardrobe-ctrl-gap: 12px;
+    --wardrobe-ctrl-fs: 1.05rem;
 }
 
 .wardrobe .defaults h2 {
     font-size: 2rem;
     color: var(--text-color);
     font-family: "Outfit", sans-serif;
+    border-bottom: 2px solid var(--fix-color);
+    padding-bottom: 12px;
+    width: 100%;
+}
+
+.wear-box {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: clamp(16px, 3vw, 24px);
+}
+
+.wear-box>.setup {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
 }
 
 .setup {
-    width: 100%;
-    height: 100%;
     background-color: var(--hilyt-color);
     border-radius: 20px;
     border: 2px solid var(--fix-color);
     display: flex;
     flex-direction: column;
-    padding: 20px;
-    justify-content: space-between;
-    align-items: flex-start;
+    padding: clamp(16px, 3vw, 24px);
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: stretch;
+    transition: transform 0.2s ease;
 }
 
-.setup .top-wear {
+.setup:hover {
+    transform: translateY(-2px);
+}
+
+.setup .top-wear,
+.setup .bottom-wear {
     width: 100%;
-    height: 100%;
-    /* background-color: var(--bg-color); */
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 20px;
+    gap: 12px;
 }
 
-.setup .top-wear h3 {
-    font-size: 1.6rem;
+.setup .top-wear h3,
+.setup .bottom-wear h3 {
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
     color: var(--fix-color);
     font-family: "Outfit", sans-serif;
+    font-weight: 600;
 }
 
 .fit-options {
     width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 20px;
-    /* background-color: cadetblue; */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 10px;
 }
 
 .t-opt,
 .b-opt {
-    width: 200px;
-    height: 100px;
-    font-size: 1.6rem;
+    width: 100%;
+    height: 52px;
+    font-size: 1.1rem;
+    font-weight: 500;
     background-color: var(--bg-color);
     border: 2px solid var(--fix-color);
     border-radius: 20px;
     color: var(--text-color);
-    transition: .3s;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     font-family: "Outfit", sans-serif;
+    cursor: pointer;
 }
 
-.t-opt:hover,
-.b-opt:hover {
-    scale: 0.97;
+.t-opt:not(.selected):hover,
+.b-opt:not(.selected):hover {
+    /* transform: scale(0.97); */
     border-radius: 10px;
+    /* background-color: var(--hilyt-color); */
 }
 
 .t-opt.selected,
@@ -764,40 +784,98 @@ body {
 
 .color-options {
     width: 100%;
-    padding-top: 20px;
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 20px;
-    transition: .3s;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+    border-top: 1.5px dashed rgba(33, 11, 44, 0.2);
+    padding-top: 16px;
 }
 
-.custom-color-btn {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 10px 20px;
-    background-color: var(--bg-color);
-    border: 2px solid var(--fix-color);
-    border-radius: 20px;
-    cursor: pointer;
-    transition: .3s;
+.color-options h3 {
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    color: var(--fix-color);
     font-family: "Outfit", sans-serif;
-    font-size: 1.4rem;
-    color: var(--text-color);
+    font-weight: 600;
 }
 
-.custom-color-btn:hover {
-    transform: scale(0.97);
-    border-radius: 10px;
+.swatches-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
 }
 
-.color-preview {
-    width: 30px;
-    height: 30px;
+.swatch-btn {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     border: 1px solid var(--fix-color);
-    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    padding: 0;
+}
+
+.swatch-btn:hover {
+    border-color: var(--text-color);
+}
+
+.swatch-btn.selected {
+    box-shadow: 0 0 0 2px var(--bg-color), 0 0 0 4px var(--fix-color);
+}
+
+.custom-color-swatch {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px dashed var(--fix-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: var(--bg-color);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.custom-color-swatch:hover {
+    border-style: solid;
+    border-color: var(--text-color);
+}
+
+.custom-color-swatch.selected {
+    border-style: solid;
+    box-shadow: 0 0 0 2px var(--bg-color), 0 0 0 4px var(--fix-color);
+}
+
+.swatch-custom-preview {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: block;
+}
+
+.plus-icon {
+    position: absolute;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--text-color);
+    pointer-events: none;
+    line-height: 1;
+}
+
+.selected-color-label {
+    font-family: "Outfit", sans-serif;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.85;
+    margin-top: 4px;
+}
+
+.selected-color-label span {
+    font-weight: 600;
 }
 
 .hidden-color-input {
@@ -808,117 +886,94 @@ body {
     pointer-events: none;
 }
 
-.setup .bottom-wear {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-.setup .bottom-wear h3 {
-    font-size: 1.6rem;
-    color: var(--fix-color);
-    font-family: "Outfit", sans-serif;
-}
-
 .occassion {
-    gap: 30px;
-    width: 49%;
+    width: 100%;
 }
 
 .occassion h3 {
-    font-size: 1.6rem;
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
     color: var(--fix-color);
     font-family: "Outfit", sans-serif;
+    font-weight: 600;
 }
 
-.occassion .dropdown {
-    position: relative;
-    display: inline-block;
-    /* width: 100%; */
-}
-
-.occassion .dropdown-toggle {
+.occasion-chips {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(10px, 2vw, 16px);
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 12px 16px;
+    margin-top: 12px;
+}
+
+.occasion-chip {
+    background-color: var(--bg-color);
+    border: 2px solid var(--fix-color);
     border-radius: 20px;
-    border: 2px solid var(--fix-color);
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: "Outfit", sans-serif;
-    font-size: 1.6rem;
+    padding: 14px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    color: var(--text-color);
+    min-width: 0;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
-.occassion .dropdown-toggle .caret {
-    border-top: 6px solid var(--text-color);
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    height: 0;
-    width: 0;
-}
-
-.occassion .dropdown-menu {
-    position: absolute;
-    left: 0;
-    right: 0;
-    /* margin-top: 6px; */
-    background-color: var(--bg-color);
-    /* backdrop-filter: blur(10px); */
+.occasion-chip:not(.selected):hover {
     border-radius: 12px;
-    border: 2px solid var(--fix-color);
-    list-style: none;
-    padding: 6px 0;
-    max-height: 220px;
-    overflow-y: auto;
-    opacity: 0;
-    transform: translateY(4px);
-    pointer-events: none;
-    transition: opacity .2s ease, transform .2s ease;
-    z-index: 10;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(33, 11, 44, 0.08);
 }
 
-.occassion .dropdown:hover .dropdown-menu {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
+.occasion-chip:active {
+    transform: scale(0.98);
 }
 
-.occassion .dropdown-menu li {
-    padding: 8px 16px;
-    font-family: "Outfit", sans-serif;
-    font-size: 1.4rem;
-    color: var(--text-color);
-    cursor: pointer;
-}
-
-.occassion .dropdown-menu li:hover,
-.occassion .dropdown-menu li.selected {
+.occasion-chip.selected {
     background-color: var(--text-color);
+    color: var(--bg-color);
+    border-color: var(--text-color);
+}
+
+.occasion-chip .chip-text {
+    font-family: "Outfit", sans-serif;
+    font-size: 1.15rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+}
+
+.occasion-chip.selected .chip-text {
     color: var(--bg-color);
 }
 
 .analyze-fit-btn {
+    align-self: center;
+    width: 100%;
+    max-width: 320px;
     padding: 16px;
     border-radius: 30px;
-    border: 2px solid var(--text-color);
+    border: 2px solid var(--fix-color);
     background-color: var(--bg-color);
     font-size: 1.4rem;
     color: var(--text-color);
-    transition: .3s;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     font-family: "Outfit", sans-serif;
+    cursor: pointer;
+    text-align: center;
 }
 
 .analyze-fit-btn:hover {
     background-color: var(--text-color);
     color: var(--bg-color);
-    border-radius: 20px;
 }
+
 
 .preview-grid {
     margin-top: clamp(12px, 2vw, 20px);
@@ -1103,14 +1158,14 @@ body {
 .upload .upload-container {
     width: 100%;
     background-color: var(--bg-color);
-    height: 100%;
+    height: auto;
     border-radius: 20px;
     border: 2px solid var(--fix-color);
-    padding: 20px;
+    padding: clamp(20px, 4vw, 36px);
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    align-items: flex-start;
+    gap: 24px;
+    align-items: stretch;
     margin-top: 30px;
 }
 
@@ -1118,12 +1173,13 @@ body {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 100%;
-    gap: 20px;
+    gap: clamp(16px, 3vw, 24px);
 }
 
 .upload .upload-container .outfit-input .upload-box {
-    gap: 30px;
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
 }
 
 .upload .upload-container .outfit-input .upload-box h3 {
@@ -1137,47 +1193,57 @@ body {
 }
 
 .custom-upload-btn {
-    width: 200px;
-    height: 100px;
+    width: 100%;
+    max-width: 100%;
+    height: 120px;
     background-color: var(--bg-color);
     border: 2px solid var(--fix-color);
     border-radius: 20px;
-    transition: .3s;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 .custom-upload-btn img {
-    width: 50px;
-    height: 50px;
+    width: 44px;
+    height: 44px;
+    transition: transform 0.25s ease;
 }
 
 .custom-upload-btn:hover {
-    transform: scale(0.97);
-    border-radius: 10px;
+    border-radius: 14px;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(33, 11, 44, 0.08);
+}
+
+.custom-upload-btn:hover img {
+    transform: scale(1.08);
+}
+
+.custom-upload-btn:active {
+    transform: scale(0.98);
 }
 
 .preview-image {
     display: none;
-    width: 200px;
-    height: 200px;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
-    border-radius: 20px;
+    border-radius: 16px;
     transition: .3s;
-}
-
-.preview-image:hover {
-    transform: scale(0.97);
-    border-radius: 10px;
 }
 
 .preview-wrapper {
     position: relative;
-    width: 200px;
-    height: 200px;
+    width: 100%;
+    max-width: 100%;
+    height: 160px;
     border-radius: 20px;
-    overflow: visible;
+    background-color: var(--bg-color);
+    border: 2px solid var(--fix-color);
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1188,32 +1254,36 @@ body {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    border-radius: 20px;
-    /* border: 2px solid var(--fix-color); */
+    border-radius: 16px;
+    padding: 8px;
 }
 
 .remove-btn {
     position: absolute;
-    top: -12px;
-    right: -20px;
-    width: 30px;
-    height: 30px;
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    background-color: transparent;
+    background-color: var(--bg-color);
     color: var(--text-color);
-    border: none;
-    font-size: 2rem;
+    border: 2px solid var(--fix-color);
+    font-size: 1.4rem;
     line-height: 1;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
     font-weight: normal;
     padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
 }
 
 .remove-btn:hover {
     background-color: var(--acc-color);
-    border-color: var(--text-color);
-    /* transform: scale(1.15); */
+    transform: scale(1.1);
 }
 
 .view-wardrobe h2 {
@@ -1582,42 +1652,46 @@ body {
         padding: 10px;
     }
 
+    .wear-box {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .wear-box>.setup {
+        flex: 1 1 0;
+    }
+
     .upload {
-        padding: 20px;
+        padding: clamp(36px, 6vw, 60px) clamp(16px, 4vw, 24px);
     }
 
     .upload .upload-container {
-        padding: 16px;
+        padding: clamp(16px, 3.5vw, 24px);
+        gap: 18px;
     }
 
     .upload .upload-container .outfit-input {
         flex-direction: column;
-        gap: 20px;
+        gap: 16px;
     }
 
     .upload .upload-container .outfit-input .upload-box {
         width: 100%;
-        /* padding: 10px; */
     }
 
     .upload .upload-container .outfit-input .upload-box .custom-upload-btn,
     .upload .upload-container .outfit-input .upload-box .preview-wrapper {
         width: 100%;
-        padding: 0 20px;
+        padding: 0;
         max-width: 100%;
     }
 
     .upload .upload-container .outfit-input .upload-box .custom-upload-btn {
-        height: 180px;
+        height: 130px;
     }
 
     .upload .upload-container .outfit-input .upload-box .preview-wrapper {
-        height: auto;
-    }
-
-    .upload .upload-container .outfit-input .upload-box .preview-wrapper .preview-image {
-        width: 100%;
-        height: auto;
+        height: 160px;
     }
 
     .upload .upload-container .occassion {
@@ -1637,6 +1711,34 @@ body {
 
     .outfit-details {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .occasion-chips {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .occasion-chip {
+        padding: 12px 10px;
+        border-radius: 16px;
+        min-height: 48px;
+    }
+
+    .occasion-chip .chip-text {
+        font-size: 1.05rem;
+    }
+
+    .suggestions-filter-container .occasion-chips {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        max-width: 100%;
+    }
+
+    .suggestions-filter-container .occasion-chip[data-value="all"] {
+        grid-column: 1 / -1;
     }
 }
 
@@ -1700,9 +1802,29 @@ body {
         grid-template-columns: 1fr;
     }
 
-    .wardrobe .defaults .setup {
-        justify-content: flex-start;
-        gap: 18px;
+    .setup {
+        padding: clamp(14px, 3.5vw, 18px);
+        gap: 14px;
+        border-radius: 18px;
+    }
+
+    .wardrobe {
+        padding: 36px 14px;
+    }
+
+    .wardrobe .defaults {
+        padding: clamp(14px, 3.5vw, 18px);
+        gap: 16px;
+    }
+
+    .wear-box {
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .wear-box>.setup {
+        width: 100%;
+        flex: none;
     }
 
     .setup .top-wear,
@@ -1712,44 +1834,84 @@ body {
     }
 
     .fit-options {
-        flex-wrap: wrap;
-        gap: 12px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+        gap: 10px;
+        width: 100%;
     }
 
     .t-opt,
     .b-opt {
-        width: calc(50% - 6px);
-        height: 80px;
-        font-size: 1.2rem;
-        border-radius: 16px;
+        width: 100%;
+        height: 48px;
+        min-height: 48px;
+        font-size: 1rem;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .color-options {
-        gap: 12px;
+        gap: 10px;
+    }
+
+    .swatches-container {
+        gap: 8px;
+    }
+
+    .swatch-btn,
+    .custom-color-swatch {
+        width: 36px;
+        height: 36px;
     }
 
     .custom-color-btn {
-        font-size: 1.2rem;
-        padding: 8px 16px;
+        font-size: 1.1rem;
+        padding: 8px 14px;
     }
 
     .color-preview {
-        width: 24px;
-        height: 24px;
+        width: 22px;
+        height: 22px;
     }
 
     .occassion {
         width: 100%;
     }
 
-    .occassion .dropdown-toggle {
-        font-size: 1.2rem;
-        padding: 10px 14px;
-        border-radius: 16px;
+    .occasion-chips {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-top: 10px;
     }
 
-    .defaults #addOutfitBtn {
+    .occasion-chip {
+        padding: 12px 10px;
+        border-radius: 16px;
+        min-height: 48px;
+    }
+
+    .occasion-chip .chip-text {
+        font-size: 1.05rem;
+    }
+
+    .suggestions-filter-container .occasion-chips {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        max-width: 100%;
+    }
+
+    .suggestions-filter-container .occasion-chip[data-value="all"] {
+        grid-column: 1 / -1;
+    }
+
+    .analyze-fit-btn {
         width: 100%;
+        max-width: 100%;
+        padding: 14px 20px;
+        font-size: 1.15rem;
+        border-radius: 25px;
     }
 
     .outfit-details {
@@ -1787,10 +1949,18 @@ body {
         width: 100%;
     }
 
-    .outfit-input {
+    .upload {
+        padding: 36px 14px;
+    }
+
+    .upload .upload-container {
+        padding: 14px;
+        gap: 16px;
+    }
+
+    .upload .upload-container .outfit-input {
         flex-direction: column;
-        gap: 20px;
-        /* background-color: yellow; */
+        gap: 14px;
     }
 
     .upload .upload-container .outfit-input .upload-box {
@@ -1799,24 +1969,19 @@ body {
 
     .upload .upload-container .outfit-input .upload-box .custom-upload-btn {
         width: 100%;
-        height: 150px;
-        padding: 0 20px;
+        height: 120px;
+        padding: 0;
     }
 
     .upload .upload-container .outfit-input .upload-box .preview-wrapper {
         width: 100%;
         max-width: 100%;
-        height: auto;
-    }
-
-    .upload .upload-container .outfit-input .upload-box .preview-wrapper .preview-image {
-        width: 100%;
-        height: auto;
+        height: 150px;
     }
 
     .upload .upload-container .outfit-input .upload-box .custom-upload-btn img {
-        width: 40px;
-        height: 40px;
+        width: 38px;
+        height: 38px;
     }
 }
 
@@ -1835,14 +2000,67 @@ body {
         width: 100%;
     }
 
+    .upload,
+    .wardrobe {
+        padding: 24px 10px;
+    }
+
+    .upload .upload-container,
+    .wardrobe .defaults {
+        padding: 10px;
+        gap: 12px;
+    }
+
+    .setup {
+        padding: 12px;
+        gap: 10px;
+        border-radius: 14px;
+    }
+
+    .fit-options {
+        grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
+        gap: 8px;
+    }
+
     .t-opt,
     .b-opt {
-        width: 100%;
+        height: 44px;
+        min-height: 44px;
+        font-size: 0.9rem;
+    }
+
+    .swatches-container {
+        gap: 6px;
+    }
+
+    .swatch-btn,
+    .custom-color-swatch {
+        width: 32px;
+        height: 32px;
+    }
+
+    .occasion-chips {
+        gap: 8px;
+    }
+
+    .occasion-chip {
+        padding: 10px 6px;
+        border-radius: 12px;
+        min-height: 42px;
+    }
+
+    .occasion-chip .chip-text {
+        font-size: 0.92rem;
+    }
+
+    .analyze-fit-btn {
+        padding: 12px 16px;
+        font-size: 1.05rem;
     }
 
     .outfit-card {
-        padding: 14px;
-        gap: 12px;
+        padding: 12px;
+        gap: 10px;
     }
 
     .detail-label {
@@ -1855,10 +2073,232 @@ body {
 
     .score-badge,
     .score-label {
-        font-size: 1rem;
+        font-size: 0.95rem;
     }
 
     .score-reasons li {
-        font-size: 0.9rem;
+        font-size: 0.88rem;
     }
+}
+
+/* Suggested Outfits Section */
+.suggestions {
+    background-color: transparent;
+    min-height: 100vh;
+    width: 100%;
+    padding: 80px 5vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.suggestions-filter-container {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.suggestions-filter-container h3 {
+    font-size: 1.6rem;
+    font-family: "Outfit", sans-serif;
+    color: var(--text-color);
+}
+
+.suggestions-filter-container .occasion-chips {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: clamp(8px, 1.5vw, 14px);
+    width: 100%;
+    max-width: 720px;
+}
+
+@media (max-width: 768px) {
+    .suggestions-filter-container .occasion-chips {
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    }
+}
+
+.suggestions-grid {
+    width: 100%;
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    justify-content: center;
+    align-items: stretch;
+}
+
+/* Premium Card Design */
+.suggestion-card {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 2px solid var(--fix-color);
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+}
+
+.suggestion-card:hover {
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.suggestion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 15px;
+}
+
+.suggestion-title {
+    font-size: 1.5rem;
+    font-family: "Outfit", sans-serif;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.suggestion-badge {
+    background-color: var(--acc-color);
+    color: var(--text-color);
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-family: "Outfit", sans-serif;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.suggestion-outfit-preview {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.75);
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid var(--fix-color);
+    gap: 20px;
+}
+
+.preview-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.preview-label {
+    font-family: "Outfit", sans-serif;
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.preview-visual {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid var(--fix-color);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.preview-visual::after {
+    content: "";
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    border: 1px dashed rgba(255, 255, 255, 0.4);
+}
+
+.preview-value {
+    font-family: "Outfit", sans-serif;
+    font-size: 1.1rem;
+    color: var(--text-color);
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.suggestion-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-family: "Outfit", sans-serif;
+    font-size: 1.05rem;
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
+.detail-point {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.detail-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.try-fit-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    border: 2px solid var(--fix-color);
+    border-radius: 15px;
+    font-family: "Outfit", sans-serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.try-fit-btn:hover {
+    background-color: var(--acc-color);
+    color: var(--text-color);
+    border-color: var(--fix-color);
+}
+
+/* Prompt overlay styling when no gender/skin tone is chosen */
+.suggestions-prompt {
+    grid-column: 1 / -1;
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(10px);
+    border: 2px dashed rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    padding: 60px 40px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.03);
+}
+
+.suggestions-prompt p {
+    font-family: "Outfit", sans-serif;
+    font-size: 1.5rem;
+    color: var(--text-color);
 }
